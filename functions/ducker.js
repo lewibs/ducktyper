@@ -1,11 +1,8 @@
-import filterReducer from "./filterReducer";
 import sortDucks from "./sortDucks";
+import filterReducer from "./filterReducer";
 import makeDuckValidator from "./makeDuckValidator";
 import mergeObjects from "./mergeObjects";
-import isDuckToBool from "./isDuckToBool";
-
-//this is the name of the validator function name.
-export const DUCK = "isDuck";
+import isDuckToBool from "./is/isDuckToBool";
 
 const DEFAULTOPTIONS = {
     throw: true,
@@ -23,6 +20,7 @@ export function ducker(...args) {
     const [isDucks, ducks] = sortDucks(args);
     const validators = isDucks.map(isDuckToBool).concat(ducks.map(makeDuckValidator));
 
+    //never rename this
     return function isDuck(obj, options={}) {
         //format input
         if (!options instanceof Boolean) {
