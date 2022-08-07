@@ -24,12 +24,13 @@ import isAny from "./is/isAny";
 
 //designed to be used recursively
 export default function makeDuckValidator(val) {
-    if (isObject(val)) { 
-        //{} probably the most common
-        return makeObjectValidator(val);
-    } else if (isArray(val)) { 
+    debugger;
+    if (isArray(val)) { 
         //[]
         return makeArrayValidator(val);
+    } else if (isObject(val)) { 
+        //{}
+        return makeObjectValidator(val);
     } else if (isPrimitive(val) && !isAny(val)) { 
         //user wants to be strict
         return makePrimativeValidator(val);
