@@ -52,7 +52,7 @@ function makeIsDuckValidator(isDuck) {
     }
 }
 
-//in the case a primative is passed in. It is assumed that is an enum or something;
+//in the case a primative is passed in. It is assumed that is an enum or something so its strict assignment;
 function makePrimativeValidator(prim) {
     return function primativeValidator(check) {
         return prim === check;
@@ -96,9 +96,39 @@ function makeArrayValidator(arr) {
 }
 
 function makeObjectValidator(obj) {
+    const entries = Object.entries(obj);
+    const validators = entries.map((entry)=>{
+        entry[2] = makeDuckValidator(obj);
+        return entry;
+    });
 
+    return function objectValidator(check) {
+        let field = undefined;
+        let validator;
+
+        if (isObject(check) === false) {
+            return false;
+        }
+
+        for (let i = 0; i < validators.length; i++) {
+            field = validators[i][0];
+            validator = validators[i][1];
+
+            if (check[field]) {
+                if (validator(check[field]) === false) {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
 
 function makeTypeValidator(val) {
-
+    return function typeValidator(check) {
+        return check instanceof val;
+    }
 }
