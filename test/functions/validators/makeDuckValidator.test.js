@@ -16,6 +16,14 @@ test("test different valid normal arrays", ()=>{
     expect(isNumberArray([1,2,3,4,5])).toBe(true);
     expect(isNumberArray([])).toBe(true);
 
-    let isObjectArray = makeDuckValidator([{name:String}]);
-    expect(isObjectArray([])).toBe(true);
+    //let isObjectArray = makeDuckValidator([{name:String}]);
+    //expect(isObjectArray([])).toBe(true);
+})
+
+test("test different structured arrays", ()=>{
+    let isStringArray = makeDuckValidator([String, String]);
+    expect(isStringArray(["a", "b"])).toBe(true);
+    expect(isStringArray(["a", "b", 1])).toBe(true);
+    expect(isStringArray(["a", 1])).toBe(false);
+    expect(isStringArray(["a"])).toBe(false);
 })
