@@ -1,4 +1,4 @@
-import { DUCK } from "../../index";
+import { DUCK } from "../ducker";
 
 export default function isDuck(val) {
     if (typeof val === 'function' && val.name === DUCK) {

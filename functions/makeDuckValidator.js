@@ -4,6 +4,7 @@ import isDuck from "./is/isDuck";
 import isObject from "./is/isObject";
 import isAny from "./is/isAny";
 import isEmptyArray from "./is/isEmptyArray";
+import isUndefined from "./is/isUndefined";
 
 //accepts https://developer.mozilla.org/en-US/docs/Glossary/Primitive
 //string
@@ -46,21 +47,21 @@ export default function makeDuckValidator(val) {
     }
 }
 
-function makeIsDuckValidator(isDuck) {
+export function makeIsDuckValidator(isDuck) {
     //for naming reasons
     return function duckValidator(check) {
         return isDuck(check);
     }
 }
 
-//in the case a primative is passed in. It is assumed that is an enum or something so its strict assignment;
-function makePrimativeValidator(prim) {
+//in the case a primative is passed in. It is assumed that it has said param
+export function makePrimativeValidator(prim) {
     return function primativeValidator(check) {
         return prim === check;
     };
 }
 
-function makeArrayValidator(arr) {
+export function makeArrayValidator(arr) {
     //[type] validate that all the values are of that type
     //[type type] validate that each of those values exist and are correct... this can be any number of args
     if (arr.length === 1) {
@@ -111,10 +112,10 @@ function handleValidators(validators, values, i) {
     }
 }
 
-function makeObjectValidator(obj) {
+export function makeObjectValidator(obj) {
     const entries = Object.entries(obj);
-    const validators = entries.map((entry)=>{
-        entry[2] = makeDuckValidator(obj);
+    const validators = entries.map((entry, i)=>{
+        entry[1] = makeDuckValidator(entry[1]);
         return entry;
     });
 

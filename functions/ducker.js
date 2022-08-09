@@ -10,6 +10,8 @@ const DEFAULTOPTIONS = {
     error: `Not A Duck: Input failed to follow specifications`,
 };
 
+export const DUCK = "isDuck";
+
 //should the user pass in input name? or can it be collected from else where?
 export function ducker(...args) {
     debugger;
