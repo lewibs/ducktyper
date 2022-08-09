@@ -3,6 +3,7 @@ import isArray from "./is/isArray";
 import isDuck from "./is/isDuck";
 import isObject from "./is/isObject";
 import isAny from "./is/isAny";
+import isEmptyArray from "./is/isEmptyArray";
 
 //accepts https://developer.mozilla.org/en-US/docs/Glossary/Primitive
 //string
@@ -64,35 +65,50 @@ function makeArrayValidator(arr) {
     //[type type] validate that each of those values exist and are correct... this can be any number of args
     if (arr.length === 1) {
         const validator = makeDuckValidator(arr[0]);
-
-        return function arrayValidator(check) {
-            if (isArray(check)) {
-                for (let i = 0; i < check.length; i++) {
-                    if (validator(check[i]) === false) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            return false
-        }
+        return helperMakeArrayValidator(validator);
     } else {
         const validators = arr.map(makeDuckValidator);
+        return helperMakeArrayValidator(validators);
+    }
+}
 
-        //goes through the check and checks it against the validators. it only checks vals that have a matching validator
-        return function structuredArrayValidator(check) {
-            if (isArray(check)) {
-                for (let i = 0; i < validators.length; i++) {
-                    if (validators[i](check[i]) === false) {
-                        return false;
-                    }
-                }
-                return true
-            }
-            return false;
+//make array validator helper
+function helperMakeArrayValidator(validators) {
+    return function arrayValidator(check) {
+        if (isEmptyArray(check)) {
+            return true;
+        } else {
+            return checkArray(check, validators);
         }
     }
+}
 
+//helperMakeArrayValidator helper
+function checkArray(check, validators) {
+    if (isArray(check)) {
+        let length = check.length;
+        
+        if (isArray(validators)) {
+            length = validators.length;
+        }
+
+        for (let i = 0; i < length; i++) {
+            if (handleValidators(validators, check, i) === false) {
+                return false;
+            }
+        }
+        return true
+    }
+    return false;
+}
+
+//check array helper
+function handleValidators(validators, values, i) {
+    if (isArray(validators)) {
+        return validators[i](values[i]);
+    } else {
+        return validators(values[i])
+    }
 }
 
 function makeObjectValidator(obj) {
@@ -127,8 +143,9 @@ function makeObjectValidator(obj) {
     }
 }
 
-function makeTypeValidator(val) {
+export function makeTypeValidator(val) {
     return function typeValidator(check) {
-        return check instanceof val;
+        //val is a function so we can get the name and switch to lower
+        return typeof check === val.name.toLowerCase();
     }
 }
