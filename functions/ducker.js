@@ -2,6 +2,7 @@ import sortDucks from "./sortDucks";
 import filterReducer from "./filterReducer";
 import makeDuckValidator from "./makeDuckValidator";
 import mergeObjects from "./mergeObjects";
+import isObject from "./is/isObject";
 
 const DEFAULTOPTIONS = {
     throw: true,
@@ -13,11 +14,9 @@ export const DUCK = "isDuck";
 
 //should the user pass in input name? or can it be collected from else where?
 export function makeDuck(...args) {
-    debugger;
     if (args.length === 0 || args === undefined) {
         throw new Error("no arguments passed into ducker unable to make type");
     }
-
 
     const [isDucks, ducks] = sortDucks(args);
     const validators = isDucks.map(isDuckToBool).concat(ducks.map(makeDuckValidator));
@@ -26,7 +25,7 @@ export function makeDuck(...args) {
     return function isDuck(obj, options={}) {
         debugger;
         //format input
-        if (!options instanceof Boolean) {
+        if (options instanceof Boolean === false) {
             options = mergeObjects(DEFAULTOPTIONS, options);
         }
 
@@ -40,6 +39,10 @@ export function makeDuck(...args) {
 }
 
 export function updateDefaults(duck, options) {
+    if (!isObject(options)) {
+        throw new Error("options must be an object");
+    }
+
     let updated = mergeObjects(DEFAULTOPTIONS, options);
     return function chainedIsDuck(obj, options) {
         return duck(obj, mergeObjects(updated, options));
@@ -47,7 +50,7 @@ export function updateDefaults(duck, options) {
 }
 
 function isDuckToBool(isDuck) {
-    return attachOptions(isDuck, {throw: false});
+    return updateDefaults(isDuck, {throw: false});
 }
 
 //if its true then we dont change
@@ -72,7 +75,7 @@ function checkValidators(obj, validators) {
 function handleResponce(bool, options) {
     if (options === false || options.throw === false) {
         return bool;
-    } else {
+    } else if (bool === false) {
         throw new Error(options.error);
     }
 
