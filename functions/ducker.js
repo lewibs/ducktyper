@@ -23,7 +23,6 @@ export function makeDuck(...args) {
 
     //never rename this
     return function isDuck(obj, options={}) {
-        debugger;
         //format input
         if (options instanceof Boolean === false) {
             options = mergeObjects(DEFAULTOPTIONS, options);
