@@ -131,7 +131,7 @@ export function makeObjectValidator(obj) {
             field = validators[i][0];
             validator = validators[i][1];
 
-            if (check[field]) {
+            if (isUndefined(check[field]) === false) {
                 if (validator(check[field]) === false) {
                     return false;
                 }

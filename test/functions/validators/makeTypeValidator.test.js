@@ -8,6 +8,7 @@ test("tests makeTypeValidator", ()=>{
 
     let isBool = makeTypeValidator(Boolean);
     expect(isBool(true)).toBe(true);
+    expect(isBool(false)).toBe(true);
 
     let isNumber = makeTypeValidator(Number);
     expect(isNumber(6)).toBe(true);

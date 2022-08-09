@@ -1,11 +1,11 @@
-import ducker from "./functions/ducker";
-import any from "./enums/Any";
+import {makeDuck, updateDefaults} from "./functions/ducker";
+import Any from "./enums/Any";
 
-//custom types
-export const Any = any;
-export const ducktyper = ducker;
-
-export default ducktyper;
+export default {
+    makeDuck,
+    updateDefaults,
+    Any,
+};
 
 
 /*

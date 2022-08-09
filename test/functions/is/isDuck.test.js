@@ -1,5 +1,5 @@
 import isDuck from "../../../functions/is/isDuck";
-import ducker from "../../../functions/ducker";
+import {makeDuck as ducker} from "../../../functions/ducker";
 
 test('tests is duck with generic function', () => {
   expect(isDuck(function isDuck() {})).toBe(true);

@@ -1,3 +1,3 @@
 export default function isUndefined(val) {
-    return val === undefined && val !== null;
+    return val === undefined;
 }

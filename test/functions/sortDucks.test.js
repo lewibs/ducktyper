@@ -1,4 +1,4 @@
-import ducker from "../../functions/ducker";
+import {makeDuck as ducker} from "../../functions/ducker";
 import isDuck from "../../functions/is/isDuck";
 import sortDucks from "../../functions/sortDucks";
 
