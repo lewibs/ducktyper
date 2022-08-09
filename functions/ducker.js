@@ -2,7 +2,7 @@ import sortDucks from "./sortDucks";
 import filterReducer from "./filterReducer";
 import makeDuckValidator from "./makeDuckValidator";
 import mergeObjects from "./mergeObjects";
-import isDuckToBool from "./is/isDuckToBool";
+import isDuckToBool from "./isDuckToBool";
 
 const DEFAULTOPTIONS = {
     throw: true,
@@ -12,7 +12,8 @@ const DEFAULTOPTIONS = {
 
 //should the user pass in input name? or can it be collected from else where?
 export function ducker(...args) {
-    if (args.length === 0) {
+    debugger;
+    if (args.length === 0 || args === undefined) {
         throw new Error("no arguments passed into ducker unable to make type");
     }
 

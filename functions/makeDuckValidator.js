@@ -24,7 +24,6 @@ import isAny from "./is/isAny";
 
 //designed to be used recursively
 export default function makeDuckValidator(val) {
-    debugger;
     if (isArray(val)) { 
         //[]
         return makeArrayValidator(val);

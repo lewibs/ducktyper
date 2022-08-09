@@ -1,5 +1,5 @@
 import ducker from "./functions/ducker";
-import any from "./classes/Any";
+import any from "./enums/Any";
 
 //custom types
 export const DUCK = "isDuck";
