@@ -9,7 +9,7 @@ While duck typing exists in typscript (and many new languages), in my opinion, i
 It was designed functionally, and as a result opperates best when used as such. However, a clasical version is included and is discribed more in depth below.
 <br/>
 
-| Accepted Types | Description |
+| Basic Types | Description |
 | -------------- | ----------- |
 | initialized primatives ("string", 1234, ...etc) | Will accept any value that is equal to the primative passed in |
 | Primatives (String, Number, ...etc) | Will accept any primative value https://developer.mozilla.org/en-US/docs/Glossary/Primitive |
