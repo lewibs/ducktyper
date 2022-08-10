@@ -6,12 +6,12 @@ While duck typing exists in typscript (and many new languages), in my opinion, i
 <br/>
 
 ## Usage
-It was designed functionally, and as a result opperates best when used as such. However, a clasical version is included which can be found here: https://github.com/lewibs/ducktyper/blob/main/classes/Duck.js and is discribed more in depth below.
+It was designed functionally, and as a result opperates best when used as such. However, a clasical version is included and is discribed more in depth below.
 <br/>
 
-| Syntax | Description |
-| --- | ----------- |
-| Header | Title |
+| Accepted Types | Description |
+| -------------- | ----------- |
+| Primatives (String, Number, ...etc) | will accept any primative value https://developer.mozilla.org/en-US/docs/Glossary/Primitive |
 | Paragraph | Text |
 
 
