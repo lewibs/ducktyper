@@ -3,7 +3,7 @@ A tool for validating input based on the fundamental js idea of duck typing. The
 <br/>
 
 <p align="center">
-  <img src="https://github.com/lewibs/ducktyper/blob/images/duckornot.jpg?raw=true" alt="duck image"/>
+  <img src="https://github.com/lewibs/ducktyper/blob/main/images/duckornot.jpg?raw=true" alt="duck image"/>
 </p>
 
  
