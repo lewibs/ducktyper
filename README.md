@@ -5,7 +5,28 @@ A tool for validating input based on the fundimental js idea of duck typing. The
 While duck typing exists in typscript (and many new languages), in my opinion, it could be done better. DuckTyper has the single goal of having simple and clear syntax. It follows similar design patterns of styled-components, which are easy, quick, and clear to make.
 <br/>
 
-It was designed functionally, and as a result opperates best when used as such. However, a clasical version is included which can be found here: https://github.com/lewibs/ducktyper/blob/main/classes/Duck.js
+## Usage
+It was designed functionally, and as a result opperates best when used as such. However, a clasical version is included which can be found here: https://github.com/lewibs/ducktyper/blob/main/classes/Duck.js and is discribed more in depth below.
 <br/>
 
-## Usage
+| Syntax | Description |
+| --- | ----------- |
+| Header | Title |
+| Paragraph | Text |
+
+
+### functional usage
+```javascript
+import {makeDuck, updateDefaults, Any} from "ducktyper";
+
+//here we create a type that checks if an object has a name. We then attach some options to the duck typer...
+const isNamed = updateDefaults(
+    makeDuck({
+        name: String,
+    }),
+    {
+        message: "value failed to provide name field as a string",
+    })
+```
+
+### clasical usage
