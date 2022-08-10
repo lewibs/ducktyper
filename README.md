@@ -11,9 +11,17 @@ It was designed functionally, and as a result opperates best when used as such. 
 
 | Accepted Types | Description |
 | -------------- | ----------- |
-| Primatives (String, Number, ...etc) | will accept any primative value https://developer.mozilla.org/en-US/docs/Glossary/Primitive |
-| Paragraph | Text |
+| initialized primatives ("string", 1234, ...etc) | Will accept any value that is equal to the primative passed in |
+| Primatives (String, Number, ...etc) | Will accept any primative value https://developer.mozilla.org/en-US/docs/Glossary/Primitive |
+| Array | Has two types of arrays: single type arrays and structured arrays |
+| Object | An object with fields any of the accepted types |
+| isDuck | the type returned when a type is created |
 
+| Options | Description |
+| ------- | ----------- |
+| throw: Boolean | Value indicating if a boolian for success will be returned or if it will throw a message on error |
+| allowUndefiend: Boolean | Value indicating if an undefined input will be accepted |
+| error: String | The message that is thrown when input fails to pass tests |
 
 ### functional usage
 ```javascript
