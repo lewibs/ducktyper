@@ -24,24 +24,94 @@ It was designed functionally, and as a result opperates best when used as such. 
 | allowUndefiend: Boolean | Value indicating if an undefined input will be accepted |
 | error: String | The message that is thrown when input fails to pass tests |
 
+### functional usage
+
 | Functions | Description |
 | --------- | ----------- |
-| makeDuck(...types): isDuck |  |
-| updateDefaults(isDuck, options): isDuck |  |
-| isDuck(obj, options): Bool || Error |  |
+| makeDuck(...types): isDuck | Used to create a type. Any of the basic types can be used within it along with isDuck types |
+| updateDefaults(isDuck, options): isDuck | This is used to chain options into isDuck. Returns an isDuck that will be called with the provided options as its new defaults |
+| isDuck(val, options): Bool/Error | This is the typer that is used to check a value. |
 
-### functional usage
 ```javascript
 import {makeDuck, updateDefaults, Any} from "ducktyper";
 
-//here we create a type that checks if an object has a name. We then attach some options to the duck typer...
-const isNamed = updateDefaults(
-    makeDuck({
-        name: String,
-    }),
-    {
-        message: "value failed to provide name field as a string",
-    })
+//here we create an object that could be passed into any of these types
+let person = {
+    name: "Benjamin",
+    age: 25,
+    address: ["city", "state", 1234, "road"]
+    children: [{name:"goliath"}, {name:"fin"}],
+    employed: false,
+    single: true,
+}
+
+
+const isNamed = makeDuck({
+    name: String,
+})
+
+//we can attach default options
+const isAged = updateDefaults(makeDuck({
+    age: Number,
+}),
+{
+    error: "failed to provide age field"
+});
+
+//we can do a structured array
+const isAddress = makeDuck([String, String, Number, String]);
+
+const hasAddress = makeDuck({
+    address: isAddress,
+})
+
+const hasChildren = makeDuck({
+    children: [isNamed],
+})
+
+//can combine ducks into one big duck
+const isPerson = makeDuck(isNamed, isAged, hasAddress, hasChildren);
+
+//usage
+isPerson(person)
 ```
 
 ### clasical usage
+This is avalable... However, I recomend using the functional method as it is better tested and how the code was designed.
+
+| Methods | Description |
+| ------- | ----------- |
+| constructor | works the same way as makeDuck above |
+| test | works the same way as isDuck above |
+| defaults | setter for adding default parameters to the test call |
+| add | Works like the contructor. Updates the current object |
+
+```javascript
+//to create a type for the oop pattern we need to call new.
+const hasFeet = new Duck({
+    leftFoot: Boolean,
+    rightFoot: Boolean,
+});
+
+const hasName = new Duck({
+    name: String,
+})
+
+const hasAge = new Duck({
+    age: Number,
+}) 
+
+const isPerson = new Duck(
+    hasName,
+    hasAge
+)
+
+//if we want to add more types to this object we can by calling add
+isPerson.add(hasFeet);
+
+//we can set the default options
+isPerson.defaults = {throw:false}
+
+//call the test method to check a value
+isPerson.test(person)
+```
