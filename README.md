@@ -16,12 +16,19 @@ It was designed functionally, and as a result opperates best when used as such. 
 | Array | Has two types of arrays: single type arrays and structured arrays |
 | Object | An object with fields any of the accepted types |
 | isDuck | the type returned when a type is created |
+| Any: "any" | Indicates that anything is accepted |
 
 | Options | Description |
 | ------- | ----------- |
 | throw: Boolean | Value indicating if a boolian for success will be returned or if it will throw a message on error |
 | allowUndefiend: Boolean | Value indicating if an undefined input will be accepted |
 | error: String | The message that is thrown when input fails to pass tests |
+
+| Functions | Description |
+| --------- | ----------- |
+| makeDuck(...types): isDuck |  |
+| updateDefaults(isDuck, options): isDuck |  |
+| isDuck(obj, options): Bool || Error |  |
 
 ### functional usage
 ```javascript
