@@ -5,6 +5,8 @@ import isObject from "./is/isObject";
 import isAny from "./is/isAny";
 import isEmptyArray from "./is/isEmptyArray";
 import isUndefined from "./is/isUndefined";
+import isClass from "./is/isClass";
+import isFunction from "./is/isFunction";
 
 //accepts https://developer.mozilla.org/en-US/docs/Glossary/Primitive
 //string
@@ -23,6 +25,7 @@ import isUndefined from "./is/isUndefined";
 
 //custom additions
 //any
+//cutom validation function
 
 //designed to be used recursively
 export default function makeDuckValidator(val) {
@@ -38,7 +41,10 @@ export default function makeDuckValidator(val) {
     } else if (isDuck(val)) { 
         //user is merging types
         return makeIsDuckValidator(val);
-    } else { 
+    } else if (isFunction(val)) { 
+        //user passed in a custom function to validate with
+        return makeCustomValidator(val);
+    } else {
         //made it to the bottom. its not more complex then this... i hope
         //these are the generic constructors
         //everything here is a function
@@ -141,6 +147,12 @@ export function makeObjectValidator(obj) {
         }
 
         return true;
+    }
+}
+
+export function makeCustomValidator(func) {
+    return function customValidator(check) {
+        return func(check);
     }
 }
 
