@@ -13,13 +13,12 @@ test("test makeDuck", ()=>{
         single: true,
     }
 
-
     const isNamed = makeDuck({
         name: String,
     })
 
     const isAged = makeDuck({
-        age: Number,
+        age: (v)=>v >= 0,
     })
 
     const isAddress = makeDuck({
@@ -41,6 +40,8 @@ test("test makeDuck", ()=>{
     expect(isAged(person)).toBe(true);
     expect(hasAddress(person)).toBe(true);
     expect(isPerson(person)).toBe(true);
+    person.age = -10;
+    expect(isPerson(person, {throw: false})).toBe(false);
 })
 
 test("test updateDefaults", ()=>{

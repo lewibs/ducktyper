@@ -22,6 +22,7 @@ It was designed functionally, and as a result operates best when used as such. H
 | Object | An object with fields any of the accepted types |
 | isDuck | the type returned when a type is created |
 | Any: "any" | Indicates that anything is accepted |
+| function(val):boolean | This is used when a value has specifics that it must follow other then generic types |
  
 | Options | Description |
 | ------- | ----------- |
@@ -56,8 +57,9 @@ const isNamed = makeDuck({
 })
  
 //we can attach default options
+//and we can use custom validation functions
 const isAged = updateDefaults(makeDuck({
-   age: Number,
+   age: v=>v>=0,
 }),
 {
    error: "failed to provide age field"
