@@ -62,6 +62,7 @@ const isAged = updateDefaults(makeDuck({
    age: v=>v>=0,
 }),
 {
+   throw: true,
    error: "failed to provide age field"
 });
  

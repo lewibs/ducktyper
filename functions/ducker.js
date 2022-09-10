@@ -5,7 +5,7 @@ import mergeObjects from "./mergeObjects";
 import isObject from "./is/isObject";
 
 const DEFAULTOPTIONS = {
-    throw: true,
+    throw: false,
     allowUndefiend: false,
     error: `Not A Duck: Input failed to follow specifications`,
 };
