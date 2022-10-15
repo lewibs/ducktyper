@@ -53,14 +53,7 @@ test("test makeDuck", ()=>{
         expect(e.message).toBe("invalid age");
     }
 
-    //person.age = 10;
-    person.address = 123;
-
-    try {
-        isPerson(person, {throw: true});
-    } catch (e) {
-        expect(e.message).toBe("not a valid address");
-    }
+    expect(isPerson(person, {throw: false})).toBe(false);
 })
 
 test("test updateDefaults", ()=>{

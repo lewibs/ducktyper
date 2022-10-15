@@ -30,10 +30,14 @@ export function makeDuck(...args) {
 
         //the higher up the check the more likely it is to get reached.
         //if the value is determined good it stops checking and continues
-        let isDuck;
-        isDuck = allGoodCarryOnSir(isDuck, ()=>checkUndefined(obj, options));
-        isDuck = allGoodCarryOnSir(isDuck, ()=>checkValidators(obj, validators));
-        return handleResponce(isDuck, options);
+        try {
+            let isDuck;
+            isDuck = allGoodCarryOnSir(isDuck, ()=>checkUndefined(obj, options));
+            isDuck = allGoodCarryOnSir(isDuck, ()=>checkValidators(obj, validators));
+            return handleResponce(isDuck, options);
+        } catch(e) {
+            return false;
+        }
     }
 }
 
