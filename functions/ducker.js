@@ -36,7 +36,11 @@ export function makeDuck(...args) {
             isDuck = allGoodCarryOnSir(isDuck, ()=>checkValidators(obj, validators));
             return handleResponce(isDuck, options);
         } catch(e) {
-            return false;
+            if (options.throw) {
+                throw e;
+            } else {
+                return false;
+            }
         }
     }
 }
