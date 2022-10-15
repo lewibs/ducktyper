@@ -17,13 +17,19 @@ test("test makeDuck", ()=>{
         name: String,
     })
 
-    const isAged = makeDuck({
+    const isAged = updateDefaults(makeDuck({
         age: (v)=>v >= 0,
-    })
+    }), {
+        throw: true,
+        error: 'invalid age',
+    });
 
-    const isAddress = makeDuck({
+    const isAddress = updateDefaults(makeDuck({
         city: String,
         state: String
+    }), {
+        throw: true,
+        error: "not a valid address",
     });
 
     const hasAddress = makeDuck({
@@ -41,7 +47,20 @@ test("test makeDuck", ()=>{
     expect(hasAddress(person)).toBe(true);
     expect(isPerson(person)).toBe(true);
     person.age = -10;
-    expect(isPerson(person, {throw: false})).toBe(false);
+    try {
+        isPerson(person, {throw: true});
+    } catch (e) {
+        expect(e.message).toBe("invalid age");
+    }
+
+    //person.age = 10;
+    person.address = 123;
+
+    try {
+        isPerson(person, {throw: true});
+    } catch (e) {
+        expect(e.message).toBe("not a valid address");
+    }
 })
 
 test("test updateDefaults", ()=>{
