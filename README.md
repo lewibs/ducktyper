@@ -28,7 +28,7 @@ It was designed functionally, and as a result operates best when used as such. H
 | ------- | ----------- |
 | throw: Boolean | Value indicating if a boolean for success will be returned or if it will throw a message on error |
 | allowUndefiend: Boolean | Value indicating if an undefined input will be accepted |
-| error: String | The message that is thrown when input fails to pass tests |
+| message: String | The message that is thrown when input fails to pass tests |
  
 ### functional usage
  
@@ -82,44 +82,4 @@ const isPerson = makeDuck(isNamed, isAged, hasAddress, hasChildren);
  
 //usage
 isPerson(person)
-```
- 
-### classical usage
-This is available... However, I recommend using the functional method as it is better tested and how the code was designed.
- 
-| Methods | Description |
-| ------- | ----------- |
-| constructor | works the same way as makeDuck above |
-| test | works the same way as isDuck above |
-| defaults | setter for adding default parameters to the test call |
-| add | Works like the constructor. Updates the current object |
- 
-```javascript
-//to create a type for the oop pattern we need to call new.
-const hasFeet = new Duck({
-   leftFoot: Boolean,
-   rightFoot: Boolean,
-});
- 
-const hasName = new Duck({
-   name: String,
-})
- 
-const hasAge = new Duck({
-   age: Number,
-})
- 
-const isPerson = new Duck(
-   hasName,
-   hasAge
-)
- 
-//if we want to add more types to this object we can by calling add
-isPerson.add(hasFeet);
- 
-//we can set the default options
-isPerson.defaults = {throw:false}
- 
-//call the test method to check a value
-isPerson.test(person)
 ```
