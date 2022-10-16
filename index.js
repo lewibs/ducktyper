@@ -1,8 +1,14 @@
-import {makeDuck as md, updateDefaults as ud} from "./functions/ducker";
+import {makeDuck as md, duckfaults as ud} from "./functions/ducker";
 import ANY from "./enums/Any";
-import Duck from "./classes/Duck";
 
 export const makeDuck = md;
 export const updateDefaults = ud;
 export const Any = ANY;
+
+const Duck = {
+    updateDefaults,
+    duckfaults,
+    Any,
+}
+
 export default Duck;

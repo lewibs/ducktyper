@@ -1,13 +1,12 @@
 import sortDucks from "./sortDucks";
-import filterReducer from "./filterReducer";
 import makeDuckValidator from "./makeDuckValidator";
 import mergeObjects from "./mergeObjects";
 import isObject from "./is/isObject";
 
 const DEFAULTOPTIONS = {
     throw: false,
-    allowUndefiend: false,
-    error: `Not A Duck: Input failed to follow specifications`,
+    allowUndefined: false,
+    message: `Not A Duck: Input failed to follow specifications`,
 };
 
 export const DUCK = "isDuck";
@@ -19,23 +18,26 @@ export function makeDuck(...args) {
     }
 
     const [isDucks, ducks] = sortDucks(args);
-    const validators = isDucks.map(isDuckToBool).concat(ducks.map(makeDuckValidator));
+    const validators = isDucks.concat(ducks.map(makeDuckValidator));
 
     //never rename this
     return function isDuck(obj, options={}) {
-        //format input
-        if (options instanceof Boolean === false) {
-            options = mergeObjects(DEFAULTOPTIONS, options);
+        options = mergeObjects(DEFAULTOPTIONS, options);
+
+        //return true if undefined is allowed and its undefined
+        if (options.allowUndefined) {
+            if (obj === undefined || obj === null) {
+                return true;
+            }
         }
 
-        //the higher up the check the more likely it is to get reached.
-        //if the value is determined good it stops checking and continues
         try {
-            let isDuck;
-            isDuck = allGoodCarryOnSir(isDuck, ()=>checkUndefined(obj, options));
-            isDuck = allGoodCarryOnSir(isDuck, ()=>checkValidators(obj, validators));
-            return handleResponce(isDuck, options);
-        } catch(e) {
+            if (validators.map(v=>v(obj, {throw: options.throw})).reduce((a,b)=>a&&b, true)) {
+                return true
+            } else {
+                throw new Error(options.message);
+            }
+        } catch (e) {
             if (options.throw) {
                 throw e;
             } else {
@@ -45,47 +47,13 @@ export function makeDuck(...args) {
     }
 }
 
-export function updateDefaults(duck, options) {
+export function duckfaults(duck, options) {
     if (!isObject(options)) {
         throw new Error("options must be an object");
     }
 
     let updated = mergeObjects(DEFAULTOPTIONS, options);
-    return function chainedIsDuck(obj, options) {
+    return function isDuck(obj, options) {
         return duck(obj, mergeObjects(updated, options));
     }
-}
-
-function isDuckToBool(isDuck) {
-    return updateDefaults(isDuck, {throw: false});
-}
-
-//if its true then we dont change
-function allGoodCarryOnSir(bool, func) {
-    return (bool) ? true : func();
-}
-
-function checkUndefined(obj, options) {
-    if (options.allowUndefiend === true) {
-        if (obj === undefined || obj === null) {
-            return true;
-        }
-    }
-
-    return false
-}
-
-function checkValidators(obj, validators) {
-    return validators.reduce(filterReducer)(obj);
-}
-
-function handleResponce(bool, options) {
-    if (options === false || options.throw === false) {
-        return bool;
-    } else if (bool === false) {
-        throw new Error(options.error);
-    }
-
-    //no problems
-    return true;
 }

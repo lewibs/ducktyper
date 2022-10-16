@@ -40,10 +40,10 @@ export default function makeDuckValidator(val) {
         return makePrimativeValidator(val);
     } else if (isDuck(val)) { 
         //user is merging types
-        return makeIsDuckValidator(val);
+        return val;
     } else if (isFunction(val)) { 
         //user passed in a custom function to validate with
-        return makeCustomValidator(val);
+        return val;
     } else {
         //made it to the bottom. its not more complex then this... i hope
         //these are the generic constructors
@@ -55,14 +55,14 @@ export default function makeDuckValidator(val) {
 
 export function makeIsDuckValidator(isDuck) {
     //for naming reasons
-    return function duckValidator(check) {
-        return isDuck(check);
+    return function duckValidator(check, options) {
+        return isDuck(check, options);
     }
 }
 
 //in the case a primative is passed in. It is assumed that it has said param
 export function makePrimativeValidator(prim) {
-    return function primativeValidator(check) {
+    return function primativeValidator(check, options) {
         return prim === check;
     };
 }
@@ -70,28 +70,26 @@ export function makePrimativeValidator(prim) {
 export function makeArrayValidator(arr) {
     //[type] validate that all the values are of that type
     //[type type] validate that each of those values exist and are correct... this can be any number of args
-    if (arr.length === 1) {
-        const validator = makeDuckValidator(arr[0]);
-        return helperMakeArrayValidator(validator);
-    } else {
-        const validators = arr.map(makeDuckValidator);
-        return helperMakeArrayValidator(validators);
-    }
-}
+    const validators = (arr.length === 1) 
+        ? makeDuckValidator(arr[0])
+        : arr.map(makeDuckValidator);
 
-//make array validator helper
-function helperMakeArrayValidator(validators) {
-    return function arrayValidator(check) {
-        if (isEmptyArray(check)) {
-            return true;
+
+    return function arrayValidator(check, options) {
+        if (isEmptyArray(check)) { //this is to allow for am empty array to be accepted if it is not a structued arr
+            if (validators.length == 1) { //if it is an unstructured arr
+                return true;
+            } else { //it is a structured arr and cant be empty
+                return false;
+            }
         } else {
-            return checkArray(check, validators);
+            return checkArray(check, validators, options);
         }
     }
 }
 
 //helperMakeArrayValidator helper
-function checkArray(check, validators) {
+function checkArray(check, validators, options) {
     if (isArray(check)) {
         let length = check.length;
         
@@ -100,7 +98,7 @@ function checkArray(check, validators) {
         }
 
         for (let i = 0; i < length; i++) {
-            if (handleValidators(validators, check, i) === false) {
+            if (handleValidators(validators, check, i, options) === false) {
                 return false;
             }
         }
@@ -110,11 +108,11 @@ function checkArray(check, validators) {
 }
 
 //check array helper
-function handleValidators(validators, values, i) {
+function handleValidators(validators, values, i, options) {
     if (isArray(validators)) {
-        return validators[i](values[i]);
+        return validators[i](values[i], options);
     } else {
-        return validators(values[i])
+        return validators(values[i], options);
     }
 }
 
@@ -125,7 +123,7 @@ export function makeObjectValidator(obj) {
         return entry;
     });
 
-    return function objectValidator(check) {
+    return function objectValidator(check, options) {
         let field = undefined;
         let validator;
 
@@ -137,22 +135,12 @@ export function makeObjectValidator(obj) {
             field = validators[i][0];
             validator = validators[i][1];
 
-            if (isUndefined(check[field]) === false) {
-                if (validator(check[field]) === false) {
-                    return false;
-                }
-            } else {
+            if (validator(check[field], options) === false) {
                 return false;
             }
         }
 
         return true;
-    }
-}
-
-export function makeCustomValidator(func) {
-    return function customValidator(check) {
-        return func(check);
     }
 }
 
