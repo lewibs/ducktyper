@@ -7,7 +7,7 @@ export const Any = ANY;
 
 const Duck = {
     updateDefaults,
-    duckfaults,
+    makeDuck,
     Any,
 }
 
