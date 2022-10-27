@@ -21,7 +21,7 @@ It was designed functionally, and as a result operates best when used as such. H
 | Array | Has two types of arrays: single type arrays and structured arrays |
 | Object | An object with fields any of the accepted types |
 | isDuck | the type returned when a type is created |
-| Any: "any" | Indicates that anything is accepted |
+| Any: function | Indicates that anything is accepted |
 | function(val):boolean | This is used when a value has specifics that it must follow other then generic types |
  
 | Options | Description |
