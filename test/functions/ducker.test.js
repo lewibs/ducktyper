@@ -1,4 +1,5 @@
 import {makeDuck, duckfaults as updateDefaults} from "../../functions/ducker";
+import {Any} from "../../functions/Any";
 
 test("test makeDuck", ()=>{
     let person = {
@@ -118,4 +119,17 @@ test("test updateDefaults", ()=>{
     });
 
     expect(hasAddress({name: "yellow"})).toBe(false);
+})
+
+test("test Any", ()=>{
+    const isAny = makeDuck(Any);
+    expect(isAny({name: "yellow"})).toBe(true);
+    expect(isAny({glarp: [1,2,3,4]})).toBe(true);
+    expect(isAny([1])).toBe(true);
+    expect(isAny([])).toBe(true);
+    expect(isAny("adsf")).toBe(true);
+    expect(isAny(567)).toBe(true);
+    expect(isAny([1,2,3,4,5])).toBe(true);
+    expect(isAny([{}, {}, 9])).toBe(true);
+    expect(isAny(isAny)).toBe(true);
 })

@@ -2,10 +2,10 @@ import isPrimitive from "./is/isPrimative";
 import isArray from "./is/isArray";
 import isDuck from "./is/isDuck";
 import isObject from "./is/isObject";
-import isAny from "./is/isAny";
+//import isAny from "./is/isAny";
 import isEmptyArray from "./is/isEmptyArray";
-import isUndefined from "./is/isUndefined";
-import isClass from "./is/isClass";
+//import isUndefined from "./is/isUndefined";
+//import isClass from "./is/isClass";
 import isFunction from "./is/isFunction";
 
 //accepts https://developer.mozilla.org/en-US/docs/Glossary/Primitive
@@ -35,7 +35,7 @@ export default function makeDuckValidator(val) {
     } else if (isObject(val)) { 
         //{}
         return makeObjectValidator(val);
-    } else if (isPrimitive(val) && !isAny(val)) { 
+    } else if (isPrimitive(val)) { 
         //user wants to be strict
         return makePrimativeValidator(val);
     } else if (isDuck(val)) { 
