@@ -22,6 +22,7 @@ It was designed functionally, and as a result operates best when used as such. H
 | Object | An object with fields any of the accepted types |
 | isDuck | the type returned when a type is created |
 | Any: function | Indicates that anything is accepted |
+| Class: object | You can use any type of class that you would like. This includes custom and defaut js classes |
 | function(val):boolean | This is used when a value has specifics that it must follow other then generic types |
  
 | Options | Description |
