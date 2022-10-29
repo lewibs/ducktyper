@@ -1,12 +1,11 @@
 import isPrimitive from "./is/isPrimative";
 import isArray from "./is/isArray";
 import isDuck from "./is/isDuck";
-import isObject from "./is/isObject";
-//import isAny from "./is/isAny";
+import isObject from "./is/isObject";   
 import isEmptyArray from "./is/isEmptyArray";
-//import isUndefined from "./is/isUndefined";
-//import isClass from "./is/isClass";
+import isClass from "./is/isClass";
 import isFunction from "./is/isFunction";
+import isPrimativeConstructor from "./is/isPrimativeConstructor";
 
 //accepts https://developer.mozilla.org/en-US/docs/Glossary/Primitive
 //string
@@ -41,7 +40,9 @@ export default function makeDuckValidator(val) {
     } else if (isDuck(val)) { 
         //user is merging types
         return val;
-    } else if (isFunction(val)) { 
+    } else if (!isPrimativeConstructor(val) && isClass(val)) {
+        return makeClassValidator(val);
+    } else if (isFunction(val)) {
         //user passed in a custom function to validate with
         return val;
     } else {
@@ -141,6 +142,12 @@ export function makeObjectValidator(obj) {
         }
 
         return true;
+    }
+}
+
+export function makeClassValidator(val) {
+    return function classValidator(check) {
+        return check instanceof val;
     }
 }
 

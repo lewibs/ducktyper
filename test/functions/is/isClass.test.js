@@ -1,6 +1,10 @@
 import isClass from "../../../functions/is/isClass";
 
 test('tests with Array class', () => {
+  class Test{
+    field;
+  }
+  expect(isClass(Test)).toBe(true);
   expect(isClass(Array)).toBe(true);
 });
 

@@ -1,6 +1,7 @@
 import {makeDuck, duckfaults as updateDefaults} from "../../functions/ducker";
 import {Any} from "../../functions/Any";
 
+/*
 test("test makeDuck", ()=>{
     let person = {
         name: "Benjamin",
@@ -133,3 +134,24 @@ test("test Any", ()=>{
     expect(isAny([{}, {}, 9])).toBe(true);
     expect(isAny(isAny)).toBe(true);
 })
+
+test("test Number", ()=>{
+    const isNumber = makeDuck(Number);
+    expect(isNumber(69)).toBe(true);
+    expect(isNumber("penis")).toBe(false);
+});
+
+
+test("test String", ()=>{
+    const isString = makeDuck(String);
+    expect(isString("enis")).toBe(true);
+    expect(isString(89)).toBe(false);
+});
+*/
+
+test("test custom object", ()=>{
+    class TestObj {}
+    const isObject = makeDuck(TestObj);
+    expect(isObject(new TestObj())).toBe(true);
+    expect(isObject(89)).toBe(false);
+});
