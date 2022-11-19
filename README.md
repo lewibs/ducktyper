@@ -30,6 +30,7 @@ It was designed functionally, and as a result operates best when used as such. H
 | throw: Boolean | Value indicating if a boolean for success will be returned or if it will throw a message on error |
 | allowUndefiend: Boolean | Value indicating if an undefined input will be accepted |
 | message: String | The message that is thrown when input fails to pass tests |
+| allowEmpty: Boolean | By default this is true. However when you want to make sure an array or string is not empty set this to false |
  
 ### functional usage
  
