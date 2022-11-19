@@ -75,11 +75,10 @@ export function makeArrayValidator(arr) {
         ? makeDuckValidator(arr[0])
         : arr.map(makeDuckValidator);
 
-
     return function arrayValidator(check, options) {
         if (isEmptyArray(check)) { //this is to allow for am empty array to be accepted if it is not a structued arr
-            if (validators.length == 1) { //if it is an unstructured arr
-                return true;
+            if (validators instanceof Array === false) { //if it is an unstructured arr meaning there is only one validator
+                return (options) ? options.allowEmpty : true;
             } else { //it is a structured arr and cant be empty
                 return false;
             }
@@ -152,8 +151,11 @@ export function makeClassValidator(val) {
 }
 
 export function makeTypeValidator(val) {
-    return function typeValidator(check) {
-        //val is a function so we can get the name and switch to lower
+    return function typeValidator(check, options) {
+        if (options && check === "") {
+            return options.allowEmpty;
+        }
+
         return typeof check === val.name.toLowerCase();
     }
 }

@@ -6,6 +6,7 @@ import isObject from "./is/isObject";
 const DEFAULTOPTIONS = {
     throw: false,
     allowUndefined: false,
+    allowEmpty: true,
     message: `Not A Duck: Input failed to follow specifications`,
 };
 
@@ -32,7 +33,13 @@ export function makeDuck(...args) {
         }
 
         try {
-            if (validators.map(v=>v(obj, {throw: options.throw})).reduce((a,b)=>a&&b, true)) {
+            //for some reason this throws a bug with the default values.
+            if (validators.map(v=>v(obj, {
+                //pass this one through so that we can throw the correct error
+                throw: options.throw,
+                //pass this one through so that we can handle empty array
+                allowEmpty: options.allowEmpty,
+            })).reduce((a,b)=>a&&b, true)) {
                 return true
             } else {
                 throw new Error(options.message);

@@ -1,7 +1,6 @@
 import {makeDuck, duckfaults as updateDefaults} from "../../functions/ducker";
 import {Any} from "../../functions/Any";
 
-/*
 test("test makeDuck", ()=>{
     let person = {
         name: "Benjamin",
@@ -104,8 +103,7 @@ test("test messy arrays", ()=>{
     expect(arr(["asdf","asdf","asdf"])).toBe(false);
     expect(arr(["asdf",123,"asdf"])).toBe(true);
     expect(arr([])).toBe(false);
-
-})
+});
 
 test("test updateDefaults", ()=>{
     const isAddress = makeDuck({
@@ -144,14 +142,41 @@ test("test Number", ()=>{
 
 test("test String", ()=>{
     const isString = makeDuck(String);
+    expect(isString("")).toBe(true);
     expect(isString("enis")).toBe(true);
     expect(isString(89)).toBe(false);
 });
-*/
 
 test("test custom object", ()=>{
     class TestObj {}
     const isObject = makeDuck(TestObj);
     expect(isObject(new TestObj())).toBe(true);
     expect(isObject(89)).toBe(false);
+});
+
+test("test options allow empty", ()=>{
+//     throw: Boolean 	Value indicating if a boolean for success will be returned or if it will throw a message on error
+    // allowUndefiend: Boolean 	Value indicating if an undefined input will be accepted
+    // message: String
+    const isNumberArray = updateDefaults(makeDuck([Number]), {
+        allowEmpty: false,
+    });
+    expect(isNumberArray([])).toBe(false);
+    expect(isNumberArray([], {
+        allowEmpty: true,
+    })).toBe(true);
+
+    const isStringArray = updateDefaults(makeDuck([String]), {
+        allowEmpty: false,
+    });
+    expect(isStringArray([])).toBe(false);
+    expect(isStringArray([], {
+        allowEmpty: true,
+    })).toBe(true);
+
+    const isString = makeDuck(String);
+    expect(isString("")).toBe(true);
+    expect(isString("", {
+        allowEmpty: false,
+    })).toBe(false);
 });
