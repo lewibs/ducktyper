@@ -78,7 +78,14 @@ export function makeArrayValidator(arr) {
     return function arrayValidator(check, options) {
         if (isEmptyArray(check)) { //this is to allow for am empty array to be accepted if it is not a structued arr
             if (validators instanceof Array === false) { //if it is an unstructured arr meaning there is only one validator
-                return (options) ? options.allowEmpty : true;
+                if (options) {
+                    if (options.allowEmptyArray !== undefined) {
+                        return options.allowEmptyArray;
+                    } else if (options.allowEmpty !== undefined) {
+                        return options.allowEmpty;
+                    }
+                } 
+                return true;
             } else { //it is a structured arr and cant be empty
                 return false;
             }
@@ -153,7 +160,13 @@ export function makeClassValidator(val) {
 export function makeTypeValidator(val) {
     return function typeValidator(check, options) {
         if (options && check === "") {
-            return options.allowEmpty;
+            if (options.allowEmptyString !== undefined) {
+                return options.allowEmptyString;
+            } else if (options.allowEmpty !== undefined) {
+                return options.allowEmpty;
+            } else {
+                return true;
+            }
         }
 
         return typeof check === val.name.toLowerCase();

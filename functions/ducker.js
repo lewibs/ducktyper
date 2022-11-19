@@ -7,6 +7,8 @@ const DEFAULTOPTIONS = {
     throw: false,
     allowUndefined: false,
     allowEmpty: true,
+    allowEmptyString: undefined,
+    allowEmptyArray: undefined,
     message: `Not A Duck: Input failed to follow specifications`,
 };
 
@@ -35,10 +37,11 @@ export function makeDuck(...args) {
         try {
             //for some reason this throws a bug with the default values.
             if (validators.map(v=>v(obj, {
-                //pass this one through so that we can throw the correct error
-                throw: options.throw,
-                //pass this one through so that we can handle empty array
+                throw: options.throw, //for getting specifc error message if they are set
                 allowEmpty: options.allowEmpty,
+                allowEmptyString: options.allowEmptyString,
+                allowEmptyArray: options.allowEmptyArray,
+
             })).reduce((a,b)=>a&&b, true)) {
                 return true
             } else {

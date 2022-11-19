@@ -152,6 +152,9 @@ test("test custom object", ()=>{
     const isObject = makeDuck(TestObj);
     expect(isObject(new TestObj())).toBe(true);
     expect(isObject(89)).toBe(false);
+
+    const isError = makeDuck(Error);
+    expect(isError(new Error('this is an error'))).toBe(true);
 });
 
 test("test options allow empty", ()=>{
@@ -179,4 +182,50 @@ test("test options allow empty", ()=>{
     expect(isString("", {
         allowEmpty: false,
     })).toBe(false);
+});
+
+test("testing common use case with options", ()=>{
+    const isUserName = updateDefaults(makeDuck(String), {
+        message: "not user name",
+    })
+
+    const isUserAge = updateDefaults(makeDuck(Number), {
+        message: "not a valid age"
+    })
+
+    const isColor = updateDefaults(makeDuck(String), {
+        message: "not a color"
+    })
+
+    const isUser = makeDuck({
+        name: isUserName,
+        age: isUserAge,
+        color: isColor,
+        array: [String],
+    });
+
+    expect(isUser({
+        name: "",
+        age: 32,
+        color: "",
+        array: [],
+    }, {
+        allowEmptyString: false,
+    })).toBe(false);
+
+    expect(isUser({
+        name: "",
+        age: 32,
+        color: "",
+        array: [],
+    }, {
+        allowEmptyArray: false,
+    })).toBe(false);
+
+    expect(isUser({
+        name: "",
+        age: 32,
+        color: "",
+        array: [],
+    })).toBe(true);
 });

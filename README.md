@@ -31,6 +31,8 @@ It was designed functionally, and as a result operates best when used as such. H
 | allowUndefiend: Boolean | Value indicating if an undefined input will be accepted |
 | message: String | The message that is thrown when input fails to pass tests |
 | allowEmpty: Boolean | By default this is true. However when you want to make sure an array or string is not empty set this to false |
+| allowEmptyString: Boolean | By default this is not included. However when you want to make sure a string is not empty set this to false if it is okay set it to true. This takes precidence over allowEmpty |
+| allowEmptyArray: Boolean | By default this is not included. However when you want to make sure an array is not empty set this to false if it is okay set it to true. This takes precidence over allowEmpty |
  
 ### functional usage
  
