@@ -193,14 +193,12 @@ test("testing common use case with options", ()=>{
         message: "not a valid age"
     })
 
-    const isColor = updateDefaults(makeDuck(String), {
-        message: "not a color"
-    })
+    const isFavoriteColor = makeDuck(String);
 
     const isUser = makeDuck({
         name: isUserName,
         age: isUserAge,
-        color: isColor,
+        color: isFavoriteColor,
         array: [String],
     });
 
@@ -228,4 +226,49 @@ test("testing common use case with options", ()=>{
         color: "",
         array: [],
     })).toBe(true);
+
+    try {
+        isUser({
+            name: "",
+            age: 32,
+            color: "",
+            array: [],
+        }, {
+            message: "not a valid user",
+            childMessage: false,
+            throw: true,
+        });
+    } catch (e) {
+        expect(e.message).toBe("not a valid user");
+    }
+
+    try {
+        isUser({
+            name: "",
+            age: 32,
+            color: "",
+            array: [],
+        }, {
+            message: "not a valid user",
+            throw: true,
+        });
+    } catch (e) {
+        expect(e.message !== "not a valid user").toBe(true);
+    }
+
+    try {
+        //try to fail a child without a message and get the parent
+        isUser({
+            name: "",
+            age: 32,
+            color: "",
+            array: [],
+        }, {
+            message: "not a valid user",
+            childMessage: true,
+            throw: true,
+        });
+    } catch (e) {
+        expect(e.message === "not a valid user").toBe(true);
+    }
 });

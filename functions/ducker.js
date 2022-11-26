@@ -9,6 +9,7 @@ const DEFAULTOPTIONS = {
     allowEmpty: true,
     allowEmptyString: undefined,
     allowEmptyArray: undefined,
+    childMessage: true,
     message: `Not A Duck: Input failed to follow specifications`,
 };
 
@@ -49,6 +50,16 @@ export function makeDuck(...args) {
             }
         } catch (e) {
             if (options.throw) {
+                //return child message false then we return parent
+                if (options.childMessage === false) {
+                    throw new Error(options.message);
+                }
+
+                //if not a duck was given as a child throw we want to return the parent message
+                if (e.message === DEFAULTOPTIONS.message) {
+                    throw new Error(options.message);
+                }
+                
                 throw e;
             } else {
                 return false;
