@@ -23,12 +23,4 @@ export const isBoolean = duckfaults(makeDuck(Boolean), {
 
 export const isArray = duckfaults(makeDuck(Array), {
     message: "Not an array",
-})
-
-const Duck = {
-    duckfaults,
-    makeDuck,
-    Any,
-}
-
-export default Duck;
+});
