@@ -24,6 +24,7 @@ It was designed functionally, and as a result operates best when used as such. H
 | Any: function | Indicates that anything is accepted |
 | Class: object | You can use any type of class that you would like. This includes custom and defaut js classes |
 | function(val):boolean | This is used when a value has specifics that it must follow other then generic types |
+
  
 | Options | Description |
 | ------- | ----------- |
@@ -40,11 +41,11 @@ It was designed functionally, and as a result operates best when used as such. H
 | Functions | Description |
 | --------- | ----------- |
 | makeDuck(...types): isDuck | Used to create a type. Any of the basic types can be used within it along with isDuck types |
-| updateDefaults(isDuck, options): isDuck | This is used to chain options into isDuck. Returns an isDuck that will be called with the provided options as its new defaults |
+| duckfaults(isDuck, options): isDuck | This is used to chain options into isDuck. Returns an isDuck that will be called with the provided options as its new defaults |
 | isDuck(val, options): Bool/Error | This is the type that is used to check a value. |
  
 ```javascript
-import {makeDuck, updateDefaults, Any} from "ducktyper";
+import {makeDuck, duckfaults, Any} from "ducktyper";
  
 //here we create an object that could be passed into any of these types
 let person = {
@@ -63,7 +64,7 @@ const isNamed = makeDuck({
  
 //we can attach default options
 //and we can use custom validation functions
-const isAged = updateDefaults(makeDuck({
+const isAged = duckfaults(makeDuck({
    age: v=>v>=0,
 }),
 {
