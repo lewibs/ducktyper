@@ -89,3 +89,5 @@ const isPerson = makeDuck(isNamed, isAged, hasAddress, hasChildren);
 //usage
 isPerson(person)
 ```
+
+Uses this version of decorators: https://github.com/wycats/javascript-decorators/blob/master/README.md

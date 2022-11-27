@@ -2,6 +2,9 @@ import sortDucks from "./sortDucks";
 import makeDuckValidator from "./makeDuckValidator";
 import mergeObjects from "./mergeObjects";
 import isObject from "./is/isObject";
+import isClassDecorator from "./is/isClassDecorator";
+import isMethodDecorator from "./is/isMethodDecorator";
+import isFieldDecorator from "./is/isFieldDecorator";
 
 const DEFAULTOPTIONS = {
     throw: false,
@@ -25,7 +28,7 @@ export function makeDuck(...args) {
     const validators = isDucks.concat(ducks.map(makeDuckValidator));
 
     //never rename this
-    return function isDuck(obj, options={}) {
+    function isDuck(obj, options={}) {
         options = mergeObjects(DEFAULTOPTIONS, options);
 
         //return true if undefined is allowed and its undefined
@@ -66,6 +69,8 @@ export function makeDuck(...args) {
             }
         }
     }
+
+    return duckerator(isDuck);
 }
 
 export function duckfaults(duck, options) {
@@ -74,7 +79,23 @@ export function duckfaults(duck, options) {
     }
 
     let updated = mergeObjects(DEFAULTOPTIONS, options);
+    //never rename this
     return function isDuck(obj, options) {
         return duck(obj, mergeObjects(updated, options));
+    }
+}
+
+export function duckerator(duck) {
+    // //never rename this
+    return function isDuck(...fields) {
+        if (isFieldDecorator(fields)) {
+            throw new Error("field decorator");
+        } else if (isMethodDecorator(fields)) {
+            throw new Error("Using a duck as a method decorator is not yet supported");
+        } else if (isClassDecorator(fields)) {
+            throw new Error("Using a duck as a class decorator is not yet supported");
+        } else { //pass into is duck
+            return duck(...fields);
+        }
     }
 }
