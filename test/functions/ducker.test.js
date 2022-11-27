@@ -2,6 +2,7 @@ import {makeDuck, duckfaults as updateDefaults} from "../../functions/ducker";
 import {Any} from "../../functions/Any";
 
 test("test makeDuck", ()=>{
+
     let person = {
         name: "Benjamin",
         age: 25,
