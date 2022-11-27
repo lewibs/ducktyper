@@ -3,6 +3,18 @@ import {Any} from "../../functions/Any";
 
 test("test makeDuck", ()=>{
 
+    function dec(target, key, descriptor) {
+        console.log(target, key, descriptor);
+        return descriptor;
+    }
+    class C {
+        @dec
+        c="adf";
+    }
+
+    let c = new C();
+    c.c = "adf"
+
     let person = {
         name: "Benjamin",
         age: 25,
