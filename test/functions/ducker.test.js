@@ -1,5 +1,6 @@
 import {makeDuck, duckfaults as updateDefaults} from "../../functions/ducker";
 import {Any} from "../../functions/Any";
+import isClass from "../../functions/is/isClass";
 
 test("test makeDuck", ()=>{
     let person = {
@@ -130,6 +131,11 @@ test("test Any", ()=>{
     expect(isAny(567)).toBe(true);
     expect(isAny([1,2,3,4,5])).toBe(true);
     expect(isAny([{}, {}, 9])).toBe(true);
+    expect(isAny(()=>{})).toBe(true);
+    expect(isAny(function func(){})).toBe(true);
+    function func2(){}
+    let func3 = func2;
+    expect(isAny(func3)).toBe(true);
     expect(isAny(isAny)).toBe(true);
 })
 
@@ -138,7 +144,6 @@ test("test Number", ()=>{
     expect(isNumber(69)).toBe(true);
     expect(isNumber("penis")).toBe(false);
 });
-
 
 test("test String", ()=>{
     const isString = makeDuck(String);

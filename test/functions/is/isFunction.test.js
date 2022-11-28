@@ -2,6 +2,7 @@ import isFunction from "../../../functions/is/isFunction";
 
 test('tests with function', () => {
   expect(isFunction(()=>{})).toBe(true);
+  expect(isFunction(function func(){})).toBe(true);
 });
 
 test("test fails", ()=>{

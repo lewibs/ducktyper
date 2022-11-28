@@ -5,6 +5,7 @@ import isObject from "./is/isObject";
 import isClassDecorator from "./is/isClassDecorator";
 import isMethodDecorator from "./is/isMethodDecorator";
 import isFieldDecorator from "./is/isFieldDecorator";
+import isDuckValidator from "./is/isDuck";
 
 const DEFAULTOPTIONS = {
     throw: false,
@@ -89,10 +90,23 @@ export function duckerator(duck) {
     // //never rename this
     return function isDuck(...fields) {
         if (isFieldDecorator(fields)) {
-            throw new Error("field decorator");
+            let val;
+            return {
+                set: function (value) {
+                    duck(value, {
+                        throw: true,
+                    });
+                    val = value;
+                },
+                get: function() {
+                    return val;
+                },
+                enumerable: true,
+                configurable: true,
+            }
         } else if (isMethodDecorator(fields)) {
             throw new Error("Using a duck as a method decorator is not yet supported");
-        } else if (isClassDecorator(fields)) {
+        } else if (isClassDecorator(fields) && !isDuckValidator(fields[0])) { //second check is for an odd edge case
             throw new Error("Using a duck as a class decorator is not yet supported");
         } else { //pass into is duck
             return duck(...fields);
