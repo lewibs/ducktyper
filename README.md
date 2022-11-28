@@ -23,8 +23,8 @@ It was designed functionally, and as a result operates best when used as such. H
 | isDuck | the type returned when a type is created |
 | Any: function | Indicates that anything is accepted |
 | Class: object | You can use any type of class that you would like. This includes custom and defaut js classes |
-| function(val):boolean | This is used when a value has specifics that it must follow other then generic types |
-<br></br>
+| function(val):boolean | This is used when a value has specifics that it must follow other then generic types |  
+
 | Options | Description |
 | ------- | ----------- |
 | throw: Boolean | Value indicating if a boolean for success will be returned or if it will throw a message on error |
@@ -33,14 +33,14 @@ It was designed functionally, and as a result operates best when used as such. H
 | allowEmpty: Boolean | By default this is true. However when you want to make sure an array or string is not empty set this to false |
 | allowEmptyString: Boolean | By default this is not included. However when you want to make sure a string is not empty set this to false if it is okay set it to true. This takes precidence over allowEmpty |
 | allowEmptyArray: Boolean | By default this is not included. However when you want to make sure an array is not empty set this to false if it is okay set it to true. This takes precidence over allowEmpty |
-| childMessage: Boolean | By default this is set as true. What this does is signify that we want the message given by the child if any are given. If it is set to false it will return the parent message every time | 
-<br></br>
+| childMessage: Boolean | By default this is set as true. What this does is signify that we want the message given by the child if any are given. If it is set to false it will return the parent message every time |  
+
 | Functions | Description |
 | --------- | ----------- |
 | makeDuck(...types): isDuck | Used to create a type. Any of the basic types can be used within it along with isDuck types |
 | duckfaults(isDuck, options): isDuck | This is used to chain options into isDuck. Returns an isDuck that will be called with the provided options as its new defaults |
-| isDuck(val, options): Bool/Error | This is the type that is used to check a value. |
-<br></br>
+| isDuck(val, options): Bool/Error | This is the type that is used to check a value. |  
+  
 | Common | Description |
 | --------- | ----------- |
 | isString | checks if input is a string |
