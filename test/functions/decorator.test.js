@@ -1,4 +1,4 @@
-const { makeDuck, duckfaults } = require("../functions/ducker");
+const { makeDuck, duckfaults } = require("../../functions/ducker");
 
 test("test decorator class", ()=>{
     try {

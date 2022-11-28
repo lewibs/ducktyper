@@ -24,8 +24,7 @@ It was designed functionally, and as a result operates best when used as such. H
 | Any: function | Indicates that anything is accepted |
 | Class: object | You can use any type of class that you would like. This includes custom and defaut js classes |
 | function(val):boolean | This is used when a value has specifics that it must follow other then generic types |
-
- 
+<br></br>
 | Options | Description |
 | ------- | ----------- |
 | throw: Boolean | Value indicating if a boolean for success will be returned or if it will throw a message on error |
@@ -35,14 +34,24 @@ It was designed functionally, and as a result operates best when used as such. H
 | allowEmptyString: Boolean | By default this is not included. However when you want to make sure a string is not empty set this to false if it is okay set it to true. This takes precidence over allowEmpty |
 | allowEmptyArray: Boolean | By default this is not included. However when you want to make sure an array is not empty set this to false if it is okay set it to true. This takes precidence over allowEmpty |
 | childMessage: Boolean | By default this is set as true. What this does is signify that we want the message given by the child if any are given. If it is set to false it will return the parent message every time | 
- 
-### functional usage
- 
+<br></br>
 | Functions | Description |
 | --------- | ----------- |
 | makeDuck(...types): isDuck | Used to create a type. Any of the basic types can be used within it along with isDuck types |
 | duckfaults(isDuck, options): isDuck | This is used to chain options into isDuck. Returns an isDuck that will be called with the provided options as its new defaults |
 | isDuck(val, options): Bool/Error | This is the type that is used to check a value. |
+<br></br>
+| Common | Description |
+| --------- | ----------- |
+| isString | checks if input is a string |
+| isNumber | checks if an input is a number | 
+| isObject | checks if an input is an object |
+| isBoolean | checks if an input is a bool |
+| isArray | checks if input is an array |
+
+If there are any common types you would like added raise an issue in the github.
+
+### functional usage
  
 ```javascript
 import {makeDuck, duckfaults, Any} from "ducktyper";
@@ -89,5 +98,46 @@ const isPerson = makeDuck(isNamed, isAged, hasAddress, hasChildren);
 //usage
 isPerson(person)
 ```
+
+### classical usage (WARNING! under development)
+
+```javascript
+import {makeDuck, duckfaults} from "ducktyper";
+ 
+const isName = duckfaults(makeDuck(String), {
+   message: "name must be a string",
+});
+
+const isAge = duckfaults(makeDuck(Number), {
+   message: "age must be a number",
+});
+
+const isEmail = duckfaults(makeDuck((val)=>{
+   return /^\S+@\S+\.\S+$/.test(val)
+}), {
+   message: "not a valid email",
+});
+
+class PersonDto{
+   name;
+   age;
+   email;
+
+   constructor(props) {
+      this.name = props.name;
+      this.age = props.age;
+      this.email = props.email;
+   }
+}
+
+new PersonDto({
+   name: "Benjamin",
+   age: 25,
+   email: dummy@email.com,
+});
+```
+
+
+
 
 Uses this version of decorators: https://github.com/wycats/javascript-decorators/blob/master/README.md
