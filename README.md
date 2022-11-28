@@ -99,7 +99,14 @@ const isPerson = makeDuck(isNamed, isAged, hasAddress, hasChildren);
 isPerson(person)
 ```
 
-### classical usage (WARNING! under development)
+### classical usage (WARNING! under development uses 2018 es)
+This is a proposed addition of adding in the ability for the validators to be used as decorators. As of now it only works with babel transpiled code. The intent is to make it robust validation tool for dtos to allow fullstack js based languages to opperate with a reduced codebase. I will likely be making a second package for using this tool in ts, so that you can create custom validation tools in while still using the same js validation library. If you have any suggestions please raise them as an issue in the github.
+
+Design is based off of the decorator proposal:
+https://github.com/tc39/proposal-decorators
+
+But is using the version that babel uses:
+https://babeljs.io/docs/en/babel-plugin-proposal-decorators
 
 ```javascript
 import {makeDuck, duckfaults} from "ducktyper";
@@ -119,8 +126,11 @@ const isEmail = duckfaults(makeDuck((val)=>{
 });
 
 class PersonDto{
+   @isName
    name;
+   @isAge
    age;
+   @isEmail
    email;
 
    constructor(props) {
@@ -136,8 +146,3 @@ new PersonDto({
    email: dummy@email.com,
 });
 ```
-
-
-
-
-Uses this version of decorators: https://github.com/wycats/javascript-decorators/blob/master/README.md

@@ -2,10 +2,6 @@ import sortDucks from "./sortDucks";
 import makeDuckValidator from "./makeDuckValidator";
 import mergeObjects from "./mergeObjects";
 import isObject from "./is/isObject";
-import isClassDecorator from "./is/isClassDecorator";
-import isMethodDecorator from "./is/isMethodDecorator";
-import isFieldDecorator from "./is/isFieldDecorator";
-import isDuckValidator from "./is/isDuck";
 
 const DEFAULTOPTIONS = {
     throw: false,
