@@ -70,10 +70,10 @@ import {makeDuck, duckfaults, Any} from "ducktyper";
 //here we create an object that could be passed into any of these types
 let person = {
    name: "Benjamin",
-   age: 25,
+   age: 22,
    address: ["city", "state", 1234, "road"]
    children: [{name:"goliath"}, {name:"fin"}],
-   employed: false,
+   employed: true,
    single: true,
 }
  
@@ -153,7 +153,7 @@ class PersonDto{
 
 new PersonDto({
    name: "Benjamin",
-   age: 25,
+   age: 22,
    email: dummy@email.com,
 });
 ```
