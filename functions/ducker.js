@@ -25,7 +25,7 @@ export function makeDuck(...args) {
     const validators = isDucks.concat(ducks.map(makeDuckValidator));
 
     //never rename this
-    function isDuck(obj, options={}) {
+    return function isDuck(obj, options={}) {
         options = mergeObjects(DEFAULTOPTIONS, options);
 
         //return true if undefined is allowed and its undefined
@@ -66,8 +66,6 @@ export function makeDuck(...args) {
             }
         }
     }
-
-    return duckerator(isDuck);
 }
 
 export function duckfaults(duck, options) {
@@ -79,33 +77,5 @@ export function duckfaults(duck, options) {
     //never rename this
     return function isDuck(obj, options) {
         return duck(obj, mergeObjects(updated, options));
-    }
-}
-
-export function duckerator(duck) {
-    // //never rename this
-    return function isDuck(...fields) {
-        if (isFieldDecorator(fields)) {
-            let val;
-            return {
-                set: function (value) {
-                    duck(value, {
-                        throw: true,
-                    });
-                    val = value;
-                },
-                get: function() {
-                    return val;
-                },
-                enumerable: true,
-                configurable: true,
-            }
-        } else if (isMethodDecorator(fields)) {
-            throw new Error("Using a duck as a method decorator is not yet supported");
-        } else if (isClassDecorator(fields) && !isDuckValidator(fields[0])) { //second check is for an odd edge case
-            throw new Error("Using a duck as a class decorator is not yet supported");
-        } else { //pass into is duck
-            return duck(...fields);
-        }
     }
 }
