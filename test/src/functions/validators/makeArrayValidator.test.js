@@ -1,4 +1,4 @@
-import {makeArrayValidator} from "../../../functions/makeDuckValidator";
+import {makeArrayValidator} from "../../../../src/functions/makeDuckValidator";
 
 test("test different valid normal arrays", ()=>{
     let isStringArray = makeArrayValidator([String]);

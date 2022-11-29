@@ -1,4 +1,4 @@
-import isObject from "../../../functions/is/isObject";
+import isObject from "../../../../src/functions/is/isObject";
 
 test("tests object with generic object", ()=>{
     expect(isObject({})).toBe(true);

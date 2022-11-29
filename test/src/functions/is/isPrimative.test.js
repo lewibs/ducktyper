@@ -1,4 +1,4 @@
-import isPrimitive from "../../../functions/is/isPrimative";
+import isPrimitive from "../../../../src/functions/is/isPrimative";
 
 test('tests is Primative with some generic primatives', ()=>{
     expect(isPrimitive(true)).toBe(true);

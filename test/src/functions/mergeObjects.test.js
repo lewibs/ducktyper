@@ -1,4 +1,4 @@
-import mergeObjects from "../../functions/mergeObjects";
+import mergeObjects from "../../../src/functions/mergeObjects";
 
 test("tests that it returns a new object instance", ()=>{
     let orig = {a:"a"};

@@ -1,4 +1,4 @@
-import isPrimativeConstructor from "../../../functions/is/isPrimativeConstructor";
+import isPrimativeConstructor from "../../../../src/functions/is/isPrimativeConstructor";
 
 test('tests Primative classes', ()=>{
     expect(isPrimativeConstructor(String)).toBe(true);

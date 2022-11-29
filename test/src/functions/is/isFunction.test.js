@@ -1,4 +1,4 @@
-import isFunction from "../../../functions/is/isFunction";
+import isFunction from "../../../../src/functions/is/isFunction";
 
 test('tests with function', () => {
   expect(isFunction(()=>{})).toBe(true);

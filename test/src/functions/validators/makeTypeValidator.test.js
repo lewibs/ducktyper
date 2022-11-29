@@ -1,4 +1,4 @@
-import { makeTypeValidator } from "../../../functions/makeDuckValidator";
+import { makeTypeValidator } from "../../../../src/functions/makeDuckValidator";
 
 test("tests makeTypeValidator", ()=>{
     let isString = makeTypeValidator(String);

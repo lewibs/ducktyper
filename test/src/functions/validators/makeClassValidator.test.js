@@ -1,4 +1,4 @@
-import { makeClassValidator } from "../../../functions/makeDuckValidator";
+import { makeClassValidator } from "../../../../src/functions/makeDuckValidator";
 
 test("test makeClassValidator", ()=>{
     class Test {}

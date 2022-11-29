@@ -1,4 +1,4 @@
-import { makePrimativeValidator } from "../../../functions/makeDuckValidator";
+import { makePrimativeValidator } from "../../../../src/functions/makeDuckValidator";
 
 test("test makePrimativeValidator", ()=>{
     let isApple = makePrimativeValidator("apple");

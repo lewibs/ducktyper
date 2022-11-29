@@ -1,4 +1,4 @@
-import {makeIsDuckValidator} from "../../../functions/makeDuckValidator";
+import {makeIsDuckValidator} from "../../../../src/functions/makeDuckValidator";
 
 //to trivial to seriously test
 test("test makeIsDuckValidator", ()=>{

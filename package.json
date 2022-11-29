@@ -1,9 +1,10 @@
 {
   "name": "ducktyper",
-  "version": "4.3.0",
+  "version": "4.3.1",
   "description": "A tool for validating input based on the fundamental js idea of duck typing. The object of this is to allow for clearer input validation and specification from the perspective of the developer. It will reduce the amount of time it takes to do input validation and also speed up the reading process when faced with new code. Ultimately, however, The goal is not to make a statically typed language like typescript but instead make a duck typed language. Meaning, the types of the objects are unimportant so long as they follow has-a relationships.",
   "main": "index.js",
   "scripts": {
+    "build": "babel src -d dist",
     "test": "jest",
     "debug": "node --inspect-brk node_modules/.bin/jest --runInBand"
   },
@@ -30,8 +31,9 @@
   },
   "homepage": "https://github.com/lewibs/ducktyper#readme",
   "devDependencies": {
-    "@babel/core": "^7.18.10",
-    "@babel/preset-env": "^7.18.10",
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
     "babel-jest": "^28.1.3",
     "jest": "^28.1.3"
   }

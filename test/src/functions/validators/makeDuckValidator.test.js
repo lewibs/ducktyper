@@ -1,4 +1,4 @@
-import makeDuckValidator from "../../../functions/makeDuckValidator";
+import makeDuckValidator from "../../../../src/functions/makeDuckValidator";
 
 test("test makeDuckValidator", ()=>{
     let person = {

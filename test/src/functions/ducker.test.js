@@ -1,6 +1,5 @@
-import {makeDuck, duckfaults as updateDefaults} from "../../functions/ducker";
-import {Any} from "../../functions/Any";
-import isClass from "../../functions/is/isClass";
+import {makeDuck, duckfaults as updateDefaults} from "../../../src/functions/ducker";
+import {Any} from "../../../src/functions/Any";
 
 test("test makeDuck", ()=>{
     let person = {

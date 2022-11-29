@@ -1,4 +1,4 @@
-import isArray from "../../../functions/is/isArray";
+import isArray from "../../../../src/functions/is/isArray";
 
 test('tests with Array', () => {
   expect(isArray([])).toBe(true);

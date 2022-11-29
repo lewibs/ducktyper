@@ -1,6 +1,6 @@
-import {makeDuck as ducker} from "../../functions/ducker";
-import isDuck from "../../functions/is/isDuck";
-import sortDucks from "../../functions/sortDucks";
+import {makeDuck as ducker} from "../../../src/functions/ducker";
+import isDuck from "../../../src/functions/is/isDuck";
+import sortDucks from "../../../src/functions/sortDucks";
 
 function notDuck(){}
 

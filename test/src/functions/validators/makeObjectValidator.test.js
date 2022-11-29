@@ -1,4 +1,4 @@
-import { makeObjectValidator } from "../../../functions/makeDuckValidator";
+import { makeObjectValidator } from "../../../../src/functions/makeDuckValidator";
 
 test("test makeObjectValidator", ()=>{
     let isNamed = makeObjectValidator({name:String});

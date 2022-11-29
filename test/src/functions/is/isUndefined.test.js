@@ -1,4 +1,4 @@
-import isUndefined from "../../../functions/is/isUndefined";
+import isUndefined from "../../../../src/functions/is/isUndefined";
 
 test("test isUndefined", ()=>{
     expect(isUndefined(undefined)).toBe(true);

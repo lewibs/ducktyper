@@ -1,4 +1,4 @@
-import isClass from "../../../functions/is/isClass";
+import isClass from "../../../../src/functions/is/isClass";
 
 test('tests with Array class', () => {
   //class Test{

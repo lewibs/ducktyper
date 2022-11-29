@@ -1,4 +1,4 @@
-import isEmptyArray from "../../../functions/is/isEmptyArray";
+import isEmptyArray from "../../../../src/functions/is/isEmptyArray";
 
 test("tests empty array", ()=>{
     expect(isEmptyArray([])).toBe(true)
