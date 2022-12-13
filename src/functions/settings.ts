@@ -1,7 +1,6 @@
 import { DuckTypes } from "./duckorate";
 
-export const DEFAULTOPTIONS = {
-    type: DuckTypes.default,
+export const ISDUCK_OPTIONS = {
     throw: false,
     allowUndefined: false,
     allowEmpty: true,
@@ -11,8 +10,20 @@ export const DEFAULTOPTIONS = {
     message: `Not A Duck: Input failed to follow specifications`,
 };
 
-export function initializeOptions(obj) {
-    for (const property in obj) {
-        DEFAULTOPTIONS[property] = obj[property];
+export const DUCKORATE_OPTIONS = {
+    type: DuckTypes.parameter,
+};
+
+function afix(objA, objB) {
+    for (const property in objB) {
+        objA[property] = objB[property];
     }
+}
+
+export function initDuckorateOptions(obj) {
+    afix(DUCKORATE_OPTIONS, obj);
+}
+
+export function initIsDuckOptions(obj) {
+    afix(ISDUCK_OPTIONS, obj);
 }

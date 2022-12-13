@@ -2,7 +2,7 @@ import sortDucks from "./sortDucks";
 import makeDuckValidator from "./makeDuckValidator";
 import mergeObjects from "./mergeObjects";
 import isObject from "./is/isObject";
-import { DEFAULTOPTIONS } from "./settings";
+import { ISDUCK_OPTIONS } from "./settings";
 
 export const DUCK = "isDuck";
 
@@ -17,7 +17,7 @@ export function makeDuck(...args) {
 
     //never rename this
     function isDuck(obj, options?: any) {
-        options = mergeObjects(DEFAULTOPTIONS, options || {});
+        options = mergeObjects(ISDUCK_OPTIONS, options || {});
 
         //return true if undefined is allowed and its undefined
         if (options.allowUndefined) {
@@ -47,7 +47,7 @@ export function makeDuck(...args) {
                 }
 
                 //if not a duck was given as a child throw we want to return the parent message
-                if (e.message === DEFAULTOPTIONS.message) {
+                if (e.message === ISDUCK_OPTIONS.message) {
                     throw new Error(options.message);
                 }
                 
@@ -66,7 +66,7 @@ export function duckfaults(duck, options?) {
         throw new Error("options must be an object");
     }
 
-    let updated = mergeObjects(DEFAULTOPTIONS, options);
+    let updated = mergeObjects(ISDUCK_OPTIONS, options);
     //never rename this
     return function isDuck(obj, options?) {
         return duck(obj, mergeObjects(updated, options));
