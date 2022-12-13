@@ -162,7 +162,7 @@ test("test custom object", ()=>{
 });
 
 test("test options allow empty", ()=>{
-//     throw: Boolean 	Value indicating if a boolean for success will be returned or if it will throw a message on error
+    // throw: Boolean 	Value indicating if a boolean for success will be returned or if it will throw a message on error
     // allowUndefiend: Boolean 	Value indicating if an undefined input will be accepted
     // message: String
     const isNumberArray = updateDefaults(makeDuck([Number]), {
@@ -275,8 +275,4 @@ test("testing common use case with options", ()=>{
     } catch (e) {
         expect(e.message === "not a valid user").toBe(true);
     }
-});
-
-test("testing decorators", ()=>{
-    
 });

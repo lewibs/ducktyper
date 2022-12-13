@@ -1,9 +1,9 @@
-import {makeDuck as md, duckfaults as ud} from "./functions/ducker";
-import { Any as ANY } from "./functions/Any";
+import { makeDuck, duckfaults } from "./functions/ducker";
 
-export const makeDuck = md;
-export const duckfaults = ud;
-export const Any = ANY;
+export * from "./functions/ducker";
+export * from "./functions/Any";
+export * from "./functions/duckorate";
+export * from "./functions/settings";
 
 export const isString = duckfaults(makeDuck(String), {
     message: "Not a string",

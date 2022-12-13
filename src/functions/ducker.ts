@@ -2,16 +2,7 @@ import sortDucks from "./sortDucks";
 import makeDuckValidator from "./makeDuckValidator";
 import mergeObjects from "./mergeObjects";
 import isObject from "./is/isObject";
-
-const DEFAULTOPTIONS = {
-    throw: false,
-    allowUndefined: false,
-    allowEmpty: true,
-    allowEmptyString: undefined,
-    allowEmptyArray: undefined,
-    childMessage: true,
-    message: `Not A Duck: Input failed to follow specifications`,
-};
+import { DEFAULTOPTIONS } from "./settings";
 
 export const DUCK = "isDuck";
 
@@ -67,25 +58,7 @@ export function makeDuck(...args) {
         }
     }
 
-    return duckorator(isDuck);
-}
-
-export function duckorator(duck) {
-    return function isDuck(...args: any[]) {
-        if (false) { //class
-        } else if (false) { //method
-
-        } else if (false) { //Accessor
-
-        } else if (false) { //property
-
-        } else if (false) { //parameter
-
-        } else {
-            return duck(...args);
-        }
-
-    }
+    return isDuck;
 }
 
 export function duckfaults(duck, options?) {
