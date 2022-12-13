@@ -11,7 +11,7 @@ test("testing updating init settings", ()=>{
     const clone01 = {...ISDUCK_OPTIONS};
     clone01.throw = true;
     const clone02 = {...DUCKORATE_OPTIONS};
-    clone02.type = DuckTypes.accessor;
+    clone02.type = DuckTypes.class;
 
     initDuckorateOptions(clone02);
     expect(DUCKORATE_OPTIONS).toStrictEqual(clone02);

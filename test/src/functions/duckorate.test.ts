@@ -1,4 +1,4 @@
-import { makeDuck, duckorate } from "../../../src/index";
+import { makeDuck, duckorate, isString } from "../../../src/index";
 
 test("testing decorators", ()=>{
     const test = makeDuck({
@@ -11,22 +11,25 @@ test("testing decorators", ()=>{
     class Test {
         field="asdf";
 
-        // #glarp;
+        @duckorate(isString)
+        fart;
 
-        // @test
-        // get glarp() {
-        //     return this.#glarp;
-        // }
-
-        // @test
-        // meth() {
-
-        // }
-
-        // meth2(@test a:any) {
-        //     console.log(a);
-        // }
+        meth(@duckorate(isString, {type:DuckTypes.parameter}) val: any){
+            return val;
+        }
     }
 
     let a = new Test();
+    a.fart = "asdf";
+    expect(a.fart).toBe("asdf");
+    expect(a.field).toBe("asdf");
+    
+    try {
+        a.fart = 123;
+    } catch(e) {
+        expect(e.message).toBe("Not a string");
+    }
+
+    expect({...a}.fart).toBe(a.fart);
+    expect(JSON.parse(JSON.stringify(a)).fart).toBe(a.fart);
 });

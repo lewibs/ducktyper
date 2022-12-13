@@ -11,7 +11,8 @@ export const ISDUCK_OPTIONS = {
 };
 
 export const DUCKORATE_OPTIONS = {
-    type: DuckTypes.parameter,
+    type: DuckTypes.property,
+    throw: true,
 };
 
 function afix(objA, objB) {
