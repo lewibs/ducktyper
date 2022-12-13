@@ -4,7 +4,7 @@ test("tests makeTypeValidator", ()=>{
     let isString = makeTypeValidator(String);
     expect(isString("string")).toBe(true);
     expect(isString(false)).toBe(false);
-    expect(isString()).toBe(false);
+    expect(isString(undefined)).toBe(false);
 
     let isBool = makeTypeValidator(Boolean);
     expect(isBool(true)).toBe(true);

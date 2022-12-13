@@ -25,8 +25,8 @@ export function makeDuck(...args) {
     const validators = isDucks.concat(ducks.map(makeDuckValidator));
 
     //never rename this
-    return function isDuck(obj, options={}) {
-        options = mergeObjects(DEFAULTOPTIONS, options);
+    return function isDuck(obj, options?: any) {
+        options = mergeObjects(DEFAULTOPTIONS, options || {});
 
         //return true if undefined is allowed and its undefined
         if (options.allowUndefined) {
@@ -48,7 +48,7 @@ export function makeDuck(...args) {
             } else {
                 throw new Error(options.message);
             }
-        } catch (e) {
+        } catch (e:any) {
             if (options.throw) {
                 //return child message false then we return parent
                 if (options.childMessage === false) {
@@ -68,14 +68,14 @@ export function makeDuck(...args) {
     }
 }
 
-export function duckfaults(duck, options) {
+export function duckfaults(duck, options?) {
     if (!isObject(options)) {
         throw new Error("options must be an object");
     }
 
     let updated = mergeObjects(DEFAULTOPTIONS, options);
     //never rename this
-    return function isDuck(obj, options) {
+    return function isDuck(obj, options?) {
         return duck(obj, mergeObjects(updated, options));
     }
 }

@@ -54,16 +54,16 @@ export default function makeDuckValidator(val) {
     }
 }
 
-export function makeIsDuckValidator(isDuck) {
+export function makeIsDuckValidator(isDuck?) {
     //for naming reasons
-    return function duckValidator(check, options) {
+    return function duckValidator(check, options?) {
         return isDuck(check, options);
     }
 }
 
 //in the case a primative is passed in. It is assumed that it has said param
 export function makePrimativeValidator(prim) {
-    return function primativeValidator(check, options) {
+    return function primativeValidator(check, options?) {
         return prim === check;
     };
 }
@@ -75,7 +75,7 @@ export function makeArrayValidator(arr) {
         ? makeDuckValidator(arr[0])
         : arr.map(makeDuckValidator);
 
-    return function arrayValidator(check, options) {
+    return function arrayValidator(check, options?) {
         if (isEmptyArray(check)) { //this is to allow for am empty array to be accepted if it is not a structued arr
             if (validators instanceof Array === false) { //if it is an unstructured arr meaning there is only one validator
                 if (options) {
@@ -96,7 +96,7 @@ export function makeArrayValidator(arr) {
 }
 
 //helperMakeArrayValidator helper
-function checkArray(check, validators, options) {
+function checkArray(check, validators, options?) {
     if (isArray(check)) {
         let length = check.length;
         
@@ -115,7 +115,7 @@ function checkArray(check, validators, options) {
 }
 
 //check array helper
-function handleValidators(validators, values, i, options) {
+function handleValidators(validators, values, i, options?) {
     if (isArray(validators)) {
         return validators[i](values[i], options);
     } else {
@@ -130,8 +130,8 @@ export function makeObjectValidator(obj) {
         return entry;
     });
 
-    return function objectValidator(check, options) {
-        let field = undefined;
+    return function objectValidator(check, options?) {
+        let field;
         let validator;
 
         if (isObject(check) === false) {
@@ -158,7 +158,7 @@ export function makeClassValidator(val) {
 }
 
 export function makeTypeValidator(val) {
-    return function typeValidator(check, options) {
+    return function typeValidator(check, options?) {
         if (options && check === "") {
             if (options.allowEmptyString !== undefined) {
                 return options.allowEmptyString;

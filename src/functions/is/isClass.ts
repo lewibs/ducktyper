@@ -19,7 +19,7 @@ export default function isClass(cls) {
       //this should throw if its a class requires ES6
       try {
         cls();
-      } catch(e) {
+      } catch(e: any) {
         if (e.message === "Uncaught TypeError: class constructors must be invoked with 'new'") {
           return true;
         }

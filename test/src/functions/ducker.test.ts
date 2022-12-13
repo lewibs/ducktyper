@@ -49,7 +49,7 @@ test("test makeDuck", ()=>{
     try {
         isPerson(person, {throw: true});
         throw new Error("failed");
-    } catch (e) {
+    } catch (e:any) {
         expect(e.message).toBe("invalid age");
     }
 
