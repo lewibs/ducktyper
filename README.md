@@ -124,10 +124,10 @@ const isQuack = makeDuck((val)=>"quack"===val);
 const isEats = makeDuck((val)=>val==="bread" || val==="seeds");
 
 class DuckDto() {
-   duckorate(isQuack)
+   @duckorate(isQuack)
    sound;
 
-   duckorate(isEats)
+   @duckorate(isEats)
    eats;   
 }
 ```
