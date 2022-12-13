@@ -10,7 +10,7 @@ export enum DuckTypes {
 };
 
 export function duckorate(duck, options?): Function {
-    options = mergeObjects(ISDUCK_OPTIONS, DUCKORATE_OPTIONS, options || {});
+    options = mergeObjects(DUCKORATE_OPTIONS, options || {});
 
     if (options.type === DuckTypes.class) {
         return makeClassDuckorator(duck, options);
@@ -21,10 +21,16 @@ export function duckorate(duck, options?): Function {
     } else if (options.type === DuckTypes.property) {
         return makePropertyDuckorator(duck, options);
     } else if (options.type === DuckTypes.parameter) {
-        throw new Error("Bad decorator type");
+        return makeParameterDuckorator(duck, options);
     }
 
     throw new Error("Bad decorator type");
+}
+
+function makeParameterDuckorator(duck, options?) {
+    return function parameterDuckorator(target: Object, propertyKey: string | symbol, parameterIndex: number) {
+        console.warn("As of duckorate does not support parameters, however in the near future it will");
+    }
 }
 
 function makePropertyDuckorator(duck, options?) {

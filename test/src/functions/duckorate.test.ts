@@ -1,4 +1,4 @@
-import { makeDuck, duckorate, isString } from "../../../src/index";
+import { makeDuck, duckorate, isString, DuckTypes } from "../../../src/index";
 
 test("testing decorators", ()=>{
     const test = makeDuck({
@@ -20,6 +20,8 @@ test("testing decorators", ()=>{
     }
 
     let a = new Test();
+
+
     a.fart = "asdf";
     expect(a.fart).toBe("asdf");
     expect(a.field).toBe("asdf");
@@ -32,4 +34,11 @@ test("testing decorators", ()=>{
 
     expect({...a}.fart).toBe(a.fart);
     expect(JSON.parse(JSON.stringify(a)).fart).toBe(a.fart);
+    expect(a.meth("asdf")).toBe("asdf");
+
+    try {
+        a.meth(123);
+    } catch (e) {
+        expect(e.message).toBe("Not a string");
+    }
 });
