@@ -2,16 +2,7 @@ import sortDucks from "./sortDucks";
 import makeDuckValidator from "./makeDuckValidator";
 import mergeObjects from "./mergeObjects";
 import isObject from "./is/isObject";
-
-const DEFAULTOPTIONS = {
-    throw: false,
-    allowUndefined: false,
-    allowEmpty: true,
-    allowEmptyString: undefined,
-    allowEmptyArray: undefined,
-    childMessage: true,
-    message: `Not A Duck: Input failed to follow specifications`,
-};
+import { ISDUCK_OPTIONS } from "./settings";
 
 export const DUCK = "isDuck";
 
@@ -25,8 +16,8 @@ export function makeDuck(...args) {
     const validators = isDucks.concat(ducks.map(makeDuckValidator));
 
     //never rename this
-    return function isDuck(obj, options={}) {
-        options = mergeObjects(DEFAULTOPTIONS, options);
+    function isDuck(obj, options?: any) {
+        options = mergeObjects(ISDUCK_OPTIONS, options || {});
 
         //return true if undefined is allowed and its undefined
         if (options.allowUndefined) {
@@ -48,7 +39,7 @@ export function makeDuck(...args) {
             } else {
                 throw new Error(options.message);
             }
-        } catch (e) {
+        } catch (e:any) {
             if (options.throw) {
                 //return child message false then we return parent
                 if (options.childMessage === false) {
@@ -56,7 +47,7 @@ export function makeDuck(...args) {
                 }
 
                 //if not a duck was given as a child throw we want to return the parent message
-                if (e.message === DEFAULTOPTIONS.message) {
+                if (e.message === ISDUCK_OPTIONS.message) {
                     throw new Error(options.message);
                 }
                 
@@ -66,16 +57,18 @@ export function makeDuck(...args) {
             }
         }
     }
+
+    return isDuck;
 }
 
-export function duckfaults(duck, options) {
+export function duckfaults(duck, options?) {
     if (!isObject(options)) {
         throw new Error("options must be an object");
     }
 
-    let updated = mergeObjects(DEFAULTOPTIONS, options);
+    let updated = mergeObjects(ISDUCK_OPTIONS, options);
     //never rename this
-    return function isDuck(obj, options) {
+    return function isDuck(obj, options?) {
         return duck(obj, mergeObjects(updated, options));
     }
 }

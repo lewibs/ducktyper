@@ -1,5 +1,5 @@
 export default function zip(...arr) {
-    const zipped = [];
+    const zipped: any[] = [];
     arr.forEach((element, ind) => {
        element.forEach((el, index) => {
           if(!zipped[index]){

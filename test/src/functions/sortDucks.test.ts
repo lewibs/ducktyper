@@ -4,8 +4,8 @@ import sortDucks from "../../../src/functions/sortDucks";
 
 function notDuck(){}
 
-const ducks = [ducker(String),ducker("force"),ducker(Boolean),ducker(true)];
-const notDucks = [notDuck,notDuck,notDuck,notDuck];
+const ducks: any[] = [ducker(String),ducker("force"),ducker(Boolean),ducker(true)];
+const notDucks: any[] = [notDuck,notDuck,notDuck,notDuck];
 
 test("makes sure the ducks get split from the non ducks", ()=>{
     let [is, isnt] = sortDucks(ducks.concat(notDucks));

@@ -1,8 +1,8 @@
 import isDuck from './is/isDuck';
 
-export default function sortDucks(arr) {
+export default function sortDucks(arr:any) {
     //[duckValidators, other]
-    const sorted = [[], []];
+    const sorted:any[] = [[], []];
 
     arr.forEach((val)=>{
         if (isDuck(val)) {
