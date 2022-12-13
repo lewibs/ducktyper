@@ -276,3 +276,7 @@ test("testing common use case with options", ()=>{
         expect(e.message === "not a valid user").toBe(true);
     }
 });
+
+test("testing decorators", ()=>{
+    
+});

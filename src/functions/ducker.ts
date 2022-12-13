@@ -25,7 +25,7 @@ export function makeDuck(...args) {
     const validators = isDucks.concat(ducks.map(makeDuckValidator));
 
     //never rename this
-    return function isDuck(obj, options?: any) {
+    function isDuck(obj, options?: any) {
         options = mergeObjects(DEFAULTOPTIONS, options || {});
 
         //return true if undefined is allowed and its undefined
@@ -65,6 +65,26 @@ export function makeDuck(...args) {
                 return false;
             }
         }
+    }
+
+    return duckorator(isDuck);
+}
+
+export function duckorator(duck) {
+    return function isDuck(...args: any[]) {
+        if (false) { //class
+        } else if (false) { //method
+
+        } else if (false) { //Accessor
+
+        } else if (false) { //property
+
+        } else if (false) { //parameter
+
+        } else {
+            return duck(...args);
+        }
+
     }
 }
 
