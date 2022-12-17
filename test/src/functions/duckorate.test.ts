@@ -1,44 +1,23 @@
 import { makeDuck, duckorate, isString, DuckTypes } from "../../../src/index";
+import { validateOrReject } from "class-validator";
+import "reflect-metadata";
+
+import {
+    validate,
+} from 'class-validator';
+  
+  class Post {
+    @duckorate(isString)
+    field;
+  }  
 
 test("testing decorators", ()=>{
-    const test = makeDuck({
-        field: (val)=>val==="asdf",
-    });
-
-    @duckorate(test, {
-        type: "class",
-    })
-    class Test {
-        field="asdf";
-
-        @duckorate(isString)
-        fart;
-
-        meth(@duckorate(isString, {type:DuckTypes.parameter}) val: any){
-            return val;
-        }
-    }
-
-    let a = new Test();
-
-
-    a.fart = "asdf";
-    expect(a.fart).toBe("asdf");
-    expect(a.field).toBe("asdf");
-    
-    try {
-        a.fart = 123;
-    } catch(e) {
-        expect(e.message).toBe("Not a string");
-    }
-
-    expect({...a}.fart).toBe(a.fart);
-    expect(JSON.parse(JSON.stringify(a)).fart).toBe(a.fart);
-    expect(a.meth("asdf")).toBe("asdf");
+    let post = new Post();
+    post.field = 123;
 
     try {
-        a.meth(123);
-    } catch (e) {
-        expect(e.message).toBe("Not a string");
-    }
+        validateOrReject(post);
+    } catch (error) {
+        console.log(error.message);
+    } 
 });

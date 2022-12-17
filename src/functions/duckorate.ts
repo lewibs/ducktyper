@@ -1,5 +1,8 @@
 import mergeObjects from "./mergeObjects";
+import "reflect-metadata";
 import { DUCKORATE_OPTIONS, ISDUCK_OPTIONS } from "./settings";
+import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, Validate } from 'class-validator';
+
 
 export enum DuckTypes {
     class="class",
@@ -34,19 +37,34 @@ function makeParameterDuckorator(duck, options?) {
 }
 
 function makePropertyDuckorator(duck, options?) {
-    return function propertyDuckorator(target: Object, propertyKey: string) {
-        let value : string;
-        Object.defineProperty(target, propertyKey, {
-            get: ()=>value,
-            set: (val)=>{
-                duck(val, options);
-                value = val;
-            },
+    @ValidatorConstraint({ name: 'customText', async: false })
+    class DuckValidation implements ValidatorConstraintInterface {
+      validate(val:any, args: ValidationArguments) {
+        return duck(val, {
+            ...options,
+            throw: false,
         });
+      }
+    
+      defaultMessage(args: ValidationArguments) {
+        try {
+            console.log("throwing duck");
+            duck(undefined, {
+                allowUndefined: false,
+                throw: true,
+            });
+            console.log("did not throw duck");
+        } catch (error) {
+            return error.message;
+        }
+      }
     }
+
+    return Validate(DuckValidation);
 }
 
 function makeClassDuckorator(duck, options?) {
+    console.warn("As of duckorate does not support classes, however in the near future it will");
     return function classDuckorator<T extends {new(...args: any[]): {}}>(constr: T){
         return class extends constr {
             constructor(...args: any[]) {

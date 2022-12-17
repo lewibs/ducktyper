@@ -1,5 +1,6 @@
 import {makeDuck, duckfaults as updateDefaults} from "../../../src/functions/ducker";
 import {Any} from "../../../src/functions/Any";
+import { isString } from "../../../src";
 
 test("test makeDuck", ()=>{
     let person = {
@@ -274,5 +275,23 @@ test("testing common use case with options", ()=>{
         });
     } catch (e) {
         expect(e.message === "not a valid user").toBe(true);
+    }
+});
+
+test("test undefined options", ()=>{
+    const isUserName = updateDefaults(makeDuck(String), {
+        message: "not user name",
+        allowUndefined: false,
+    });
+
+    expect(isUserName(undefined)).toBe(false);
+    expect(isUserName(undefined, {allowUndefined:true})).toBe(true);
+    expect(isString(undefined, {allowUndefined:false})).toBe(false);
+
+    try {
+        isString(undefined, {allowUndefined:false, throw:true});
+        expect(true).toBe(false);
+    } catch (error) {
+        expect(error.message).toBe("Not a string");
     }
 });
