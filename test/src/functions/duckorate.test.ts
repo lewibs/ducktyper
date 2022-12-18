@@ -1,4 +1,4 @@
-import { makeDuck, duckorate, isString, clasifyDuck, ISDUCK_OPTIONS } from "../../../src/index";
+import { makeDuck, duckorate, isString, classifyDuck, ISDUCK_OPTIONS } from "../../../src/index";
 
 test("testing decorators", ()=>{
     const isPost = makeDuck({
@@ -18,10 +18,10 @@ test("testing decorators", ()=>{
     post.id = 0;
     post.content = "adf";
 
-    expect(clasifyDuck(post)).toBe(false);
+    expect(classifyDuck(post)).toBe(false);
 
     try {
-        clasifyDuck(post, {
+        classifyDuck(post, {
             throw:true
         });
         expect(false).toBe(true);
@@ -30,5 +30,22 @@ test("testing decorators", ()=>{
     }
 
     post.id = 1;
-    expect(clasifyDuck(post)).toBe(true);
+    expect(classifyDuck(post)).toBe(true);
+
+    try {
+        classifyDuck(post, {throw:true, message: "custom"});
+        expect(false).toBe(true);
+    } catch (error) {
+        expect(error.message).toBe("custom");
+    }
+
+
+    post.id = 123;
+    post.content = 123;
+    try {
+        classifyDuck(post, {throw:true});
+        expect(false).toBe(true);
+    } catch (error) {
+        expect(error.message).toBe("Not a string");
+    }
 });

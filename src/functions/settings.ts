@@ -25,6 +25,6 @@ export function initIsDuckOptions(obj) {
     afix(ISDUCK_OPTIONS, obj);
 }
 
-export function initClasifyDuckOptions(obj) {
+export function initClassifyDuckOptions(obj) {
     afix(CLASIFYDUCK_OPTIONS, obj);
 }

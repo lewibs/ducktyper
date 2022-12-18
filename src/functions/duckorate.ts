@@ -3,7 +3,7 @@ import "reflect-metadata";
 import { CLASIFYDUCK_OPTIONS, ISDUCK_OPTIONS } from "./settings";
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, Validate, validateSync } from 'class-validator';
 
-export function clasifyDuck(dto, options?) {
+export function classifyDuck(dto, options?) {
     options = mergeObjects(CLASIFYDUCK_OPTIONS, options || {});
     const [err] = validateSync(dto, {stopAtFirstError:true});
    
