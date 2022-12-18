@@ -1,4 +1,4 @@
-import { DuckTypes } from "./duckorate";
+const MESSAGE = `Not A Duck: Input failed to follow specifications`;
 
 export const ISDUCK_OPTIONS = {
     throw: false,
@@ -7,13 +7,13 @@ export const ISDUCK_OPTIONS = {
     allowEmptyString: undefined,
     allowEmptyArray: undefined,
     childMessage: true,
-    message: `Not A Duck: Input failed to follow specifications`,
+    message: MESSAGE,
 };
 
-export const DUCKORATE_OPTIONS = {
-    type: DuckTypes.property,
-    throw: true,
-};
+export const CLASIFYDUCK_OPTIONS = {
+    throw: false,
+    message: undefined,
+}
 
 function afix(objA, objB) {
     for (const property in objB) {
@@ -21,10 +21,10 @@ function afix(objA, objB) {
     }
 }
 
-export function initDuckorateOptions(obj) {
-    afix(DUCKORATE_OPTIONS, obj);
-}
-
 export function initIsDuckOptions(obj) {
     afix(ISDUCK_OPTIONS, obj);
+}
+
+export function initClasifyDuckOptions(obj) {
+    afix(CLASIFYDUCK_OPTIONS, obj);
 }

@@ -1,23 +1,34 @@
-import { makeDuck, duckorate, isString, DuckTypes } from "../../../src/index";
-import { validateOrReject } from "class-validator";
-import "reflect-metadata";
-
-import {
-    validate,
-} from 'class-validator';
-  
-  class Post {
-    @duckorate(isString)
-    field;
-  }  
+import { makeDuck, duckorate, isString, clasifyDuck, ISDUCK_OPTIONS } from "../../../src/index";
 
 test("testing decorators", ()=>{
+    const isPost = makeDuck({
+        id: Number,
+        content: String,
+    })
+    
+    class Post {
+        @duckorate(makeDuck((val)=>val>0))
+        id;
+    
+        @duckorate(isString)
+        content;
+    }  
+
     let post = new Post();
-    post.field = 123;
+    post.id = 0;
+    post.content = "adf";
+
+    expect(clasifyDuck(post)).toBe(false);
 
     try {
-        validateOrReject(post);
-    } catch (error) {
-        console.log(error.message);
-    } 
+        clasifyDuck(post, {
+            throw:true
+        });
+        expect(false).toBe(true);
+    } catch(error) {
+        expect(error.message).toBe(ISDUCK_OPTIONS.message);
+    }
+
+    post.id = 1;
+    expect(clasifyDuck(post)).toBe(true);
 });
