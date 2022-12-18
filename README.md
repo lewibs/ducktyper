@@ -115,10 +115,10 @@ isPerson(person)
 ```
 
 ### dto usage
-Ducktyper can now be used to decorate classes with the use of dtos in mind. That being said, the validator will apply itself to the part of the class that should be validated with that ducktype. If it is added to a class the constructor is checked, if it is added to a field then the field is checked on updated. If it is added to a parameter, then the parameter is checked when the function or method is used.
+Ducktyper can now be used to decorate classes with the use of dtos in mind. This is supported in both js and ts!
 
 ```javascript
-import {makeDuck, duckorate} from "ducktyper";
+import {makeDuck, duckorate, classifyDuck} from "ducktyper";
 
 const isQuack = makeDuck((val)=>"quack"===val);
 const isEats = makeDuck((val)=>val==="bread" || val==="seeds");
@@ -130,4 +130,15 @@ class DuckDto() {
    @duckorate(isEats)
    eats;   
 }
+
+let duck = new DuckDto();
+duck.sound = "quack";
+duck.eats = "bannanas";
+
+try {
+   classifyDuck(DuckDto, {throw:true});
+} catch (error) {
+   alert(error.message);
+}
+
 ```
