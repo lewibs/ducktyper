@@ -1,44 +1,34 @@
-import { makeDuck, duckorate, isString, DuckTypes } from "../../../src/index";
+import { makeDuck, duckorate, isString, clasifyDuck, ISDUCK_OPTIONS } from "../../../src/index";
 
 test("testing decorators", ()=>{
-    const test = makeDuck({
-        field: (val)=>val==="asdf",
-    });
-
-    @duckorate(test, {
-        type: "class",
+    const isPost = makeDuck({
+        id: Number,
+        content: String,
     })
-    class Test {
-        field="asdf";
-
-        @duckorate(isString)
-        fart;
-
-        meth(@duckorate(isString, {type:DuckTypes.parameter}) val: any){
-            return val;
-        }
-    }
-
-    let a = new Test();
-
-
-    a.fart = "asdf";
-    expect(a.fart).toBe("asdf");
-    expect(a.field).toBe("asdf");
     
+    class Post {
+        @duckorate(makeDuck((val)=>val>0))
+        id;
+    
+        @duckorate(isString)
+        content;
+    }  
+
+    let post = new Post();
+    post.id = 0;
+    post.content = "adf";
+
+    expect(clasifyDuck(post)).toBe(false);
+
     try {
-        a.fart = 123;
-    } catch(e) {
-        expect(e.message).toBe("Not a string");
+        clasifyDuck(post, {
+            throw:true
+        });
+        expect(false).toBe(true);
+    } catch(error) {
+        expect(error.message).toBe(ISDUCK_OPTIONS.message);
     }
 
-    expect({...a}.fart).toBe(a.fart);
-    expect(JSON.parse(JSON.stringify(a)).fart).toBe(a.fart);
-    expect(a.meth("asdf")).toBe("asdf");
-
-    try {
-        a.meth(123);
-    } catch (e) {
-        expect(e.message).toBe("Not a string");
-    }
+    post.id = 1;
+    expect(clasifyDuck(post)).toBe(true);
 });

@@ -19,11 +19,15 @@ export function makeDuck(...args) {
     function isDuck(obj, options?: any) {
         options = mergeObjects(ISDUCK_OPTIONS, options || {});
 
-        //return true if undefined is allowed and its undefined
-        if (options.allowUndefined) {
-            if (obj === undefined || obj === null) {
-                return true;
+        //dumb edge case that should be refactored so that it does not exist up here.
+        if (options.allowUndefined === false && (obj === undefined || obj === null)) {
+            if (options.throw) {
+                throw new Error(options.message)
+            } else {
+                return false;
             }
+        } else if (options.allowUndefined === true && (obj === undefined || obj === null)) {
+            return true;
         }
 
         try {

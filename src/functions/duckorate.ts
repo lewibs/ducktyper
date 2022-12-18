@@ -1,58 +1,53 @@
 import mergeObjects from "./mergeObjects";
-import { DUCKORATE_OPTIONS, ISDUCK_OPTIONS } from "./settings";
+import "reflect-metadata";
+import { CLASIFYDUCK_OPTIONS, ISDUCK_OPTIONS } from "./settings";
+import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, Validate, validateSync } from 'class-validator';
 
-export enum DuckTypes {
-    class="class",
-    //method="method",
-    //accessor="accessor",
-    property="property",
-    parameter="parameter",
-};
-
-export function duckorate(duck, options?): Function {
-    options = mergeObjects(DUCKORATE_OPTIONS, options || {});
-
-    if (options.type === DuckTypes.class) {
-        return makeClassDuckorator(duck, options);
-    // } else if (options.type === DuckTypes.method) {
-    //     throw new Error("Bad decorator type");
-    // } else if (options.type === DuckTypes.accessor) {
-    //     throw new Error("Bad decorator type");
-    } else if (options.type === DuckTypes.property) {
-        return makePropertyDuckorator(duck, options);
-    } else if (options.type === DuckTypes.parameter) {
-        return makeParameterDuckorator(duck, options);
+export function clasifyDuck(dto, options?) {
+    options = mergeObjects(CLASIFYDUCK_OPTIONS, options || {});
+    const [err] = validateSync(dto, {stopAtFirstError:true});
+   
+    if (options.throw) {
+        if (options.message) {
+            throw new Error(options.message);
+        } else if (err.constraints) {
+            throw new Error(err.constraints.customText);
+        } else {
+            throw new Error(ISDUCK_OPTIONS.message);
+        }
     }
 
-    throw new Error("Bad decorator type");
+    return err ? false : true;
 }
 
-function makeParameterDuckorator(duck, options?) {
-    return function parameterDuckorator(target: Object, propertyKey: string | symbol, parameterIndex: number) {
-        console.warn("As of duckorate does not support parameters, however in the near future it will");
-    }
+export function duckorate(duck, options?): Function {
+    options = mergeObjects(ISDUCK_OPTIONS, options || {});
+    return makePropertyDuckorator(duck, options);
 }
 
 function makePropertyDuckorator(duck, options?) {
-    return function propertyDuckorator(target: Object, propertyKey: string) {
-        let value : string;
-        Object.defineProperty(target, propertyKey, {
-            get: ()=>value,
-            set: (val)=>{
-                duck(val, options);
-                value = val;
-            },
-        });
-    }
-}
+    options = mergeObjects(ISDUCK_OPTIONS, options || {});
 
-function makeClassDuckorator(duck, options?) {
-    return function classDuckorator<T extends {new(...args: any[]): {}}>(constr: T){
-        return class extends constr {
-            constructor(...args: any[]) {
-                super(...args);
-                duck(this, options)
-            }
+    @ValidatorConstraint({ name: 'customText', async: false })
+    class DuckValidation implements ValidatorConstraintInterface {
+      validate(val:any, args: ValidationArguments) {
+        return duck(val, {
+            ...options,
+            throw: false,
+        });
+      }
+    
+      defaultMessage(args: ValidationArguments) {
+        try {
+            duck(undefined, {
+                allowUndefined: false,
+                throw: true,
+            });
+        } catch (error) {
+            return error.message;
         }
+      }
     }
+
+    return Validate(DuckValidation);
 }
