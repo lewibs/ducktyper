@@ -1,4 +1,3 @@
-const MESSAGE = `Not A Duck: Input failed to follow specifications`;
 
 export const ISDUCK_OPTIONS = {
     throw: false,
@@ -7,7 +6,7 @@ export const ISDUCK_OPTIONS = {
     allowEmptyString: undefined,
     allowEmptyArray: undefined,
     childMessage: true,
-    message: MESSAGE,
+    message: `Not A Duck: Input failed to follow specifications`,
 };
 
 export const CLASIFYDUCK_OPTIONS = {
