@@ -82,16 +82,13 @@ let person = {
 }
  
  
-const isNamed = makeDuck({
-   name: String,
-})
+const isName = duckfaults(isString, {
+   message: "name must be a string"
+});
  
 //we can attach default options
 //and we can use custom validation functions
-const isAged = duckfaults(makeDuck({
-   age: v=>v>=0,
-}),
-{
+const isAge = duckfaults(makeDuck(v=>v>=0), {
    throw: true,
    error: "failed to provide age field"
 });
@@ -99,16 +96,19 @@ const isAged = duckfaults(makeDuck({
 //we can do a structured array
 const isAddress = makeDuck([String, String, Number, String]);
  
-const hasAddress = makeDuck({
+const isChildren = makeDuck([isNamed]);
+
+const hasId = makeDuck({
+   id: Number,
+});
+ 
+//can combine ducks into one big duck and also sinply define a schema.
+const isPerson = makeDuck({
+   name: isName,
+   age: isAge,
    address: isAddress,
-})
- 
-const hasChildren = makeDuck({
-   children: [isNamed],
-})
- 
-//can combine ducks into one big duck
-const isPerson = makeDuck(isNamed, isAged, hasAddress, hasChildren);
+   children: isChildren
+}, hasId);
  
 //usage
 isPerson(person)
