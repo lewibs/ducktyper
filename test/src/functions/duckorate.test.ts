@@ -1,7 +1,7 @@
-import { makeDuck, duckorate, isString, classifyDuck, ISDUCK_OPTIONS } from "../../../src/index";
+import { makeDuck, duckorate, isString, classifyDuck, ISDUCK_OPTIONS, DuckDto } from "../../../src/index";
 
 test("testing decorators", ()=>{
-    class Post {
+    class Post extends DuckDto {
         @duckorate(makeDuck((val)=>val>0))
         id;
     

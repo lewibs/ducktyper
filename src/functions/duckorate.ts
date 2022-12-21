@@ -76,5 +76,12 @@ function makePropertyDuckorator(duck, options?) {
       }
     }
 
-    return Validate(DuckValidation);
+    //this is used to protect the user from adding duckorator to a non DuckDto class 
+    return function forceDuckDto(target, name) {
+        if (target instanceof DuckDto) {
+            return Validate(DuckValidation)(target, name);
+        } else {
+            throw new Error("Duckorator must be used in a class that extends DuckDto");
+        }
+    }
 }
