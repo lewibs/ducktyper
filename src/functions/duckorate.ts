@@ -2,6 +2,33 @@ import mergeObjects from "./mergeObjects";
 import "reflect-metadata";
 import { CLASIFYDUCK_OPTIONS, ISDUCK_OPTIONS } from "./settings";
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, Validate, validateSync } from 'class-validator';
+import { DuckDto } from "../classes/duckdto";
+import isObject from "./is/isObject";
+
+export function dtoToIsDuck(ADuckDto) {
+    if (ADuckDto.prototype instanceof DuckDto) {
+        return function isDuck(val, options?) {
+            if ( //if object
+                typeof val === 'object' &&
+                !Array.isArray(val) &&
+                val !== null &&
+                isObject(val)
+            ) { //initialize and test
+                let obj = new ADuckDto();
+                obj = Object.assign(obj, val);
+
+                return classifyDuck(obj, options);
+            } else { //fail
+                return classifyDuck({}, {
+                    ...options,
+                    allowUndefined: false,
+                });
+            }
+        }
+    } else {
+        throw new Error("Must be an instance of DuckDto to be turned into isDuck");
+    }
+}
 
 export function classifyDuck(dto, options?) {
     options = mergeObjects(CLASIFYDUCK_OPTIONS, options || {});
@@ -49,5 +76,12 @@ function makePropertyDuckorator(duck, options?) {
       }
     }
 
-    return Validate(DuckValidation);
+    //this is used to protect the user from adding duckorator to a non DuckDto class 
+    return function forceDuckDto(target, name) {
+        if (target instanceof DuckDto) {
+            return Validate(DuckValidation)(target, name);
+        } else {
+            throw new Error("Duckorator must be used in a class that extends DuckDto");
+        }
+    }
 }

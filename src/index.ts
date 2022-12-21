@@ -4,6 +4,7 @@ export * from "./functions/ducker";
 export * from "./functions/Any";
 export * from "./functions/duckorate";
 export * from "./functions/settings";
+export * from "./classes/duckdto";
 
 export const isString = duckfaults(makeDuck(String), {
     message: "Not a string",
