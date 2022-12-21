@@ -10,8 +10,7 @@ export const ISDUCK_OPTIONS = {
 };
 
 export const CLASIFYDUCK_OPTIONS = {
-    throw: false,
-    message: undefined,
+    ...ISDUCK_OPTIONS,
 }
 
 function afix(objA, objB) {
