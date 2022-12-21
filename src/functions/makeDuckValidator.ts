@@ -6,6 +6,8 @@ import isEmptyArray from "./is/isEmptyArray";
 import isClass from "./is/isClass";
 import isFunction from "./is/isFunction";
 import isPrimativeConstructor from "./is/isPrimativeConstructor";
+import { DuckDto } from "../classes/duckdto";
+import { dtoToIsDuck } from "./duckorate";
 
 //accepts https://developer.mozilla.org/en-US/docs/Glossary/Primitive
 //string
@@ -28,7 +30,10 @@ import isPrimativeConstructor from "./is/isPrimativeConstructor";
 
 //designed to be used recursively
 export default function makeDuckValidator(val) {
-    if (isArray(val)) { 
+    if (val.prototype instanceof DuckDto) {
+        //the user passed in a DuckDto and we want to check it using an isDuck
+        return dtoToIsDuck(val);
+    } else if (isArray(val)) { 
         //[]
         return makeArrayValidator(val);
     } else if (isObject(val)) { 
