@@ -68,4 +68,18 @@ test("testing decorators", ()=>{
     } catch (error) {
         expect(error.message).toBe("Not a string");
     }
+
+    expect(hasPost({
+        post: {
+            id: 123,
+            content:"asdf"
+        },
+    })).toBe(true);
+
+    expect(hasPost({
+        post: {
+            id: 123,
+            content:123
+        },
+    })).toBe(false);
 });
