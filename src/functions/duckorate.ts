@@ -2,6 +2,30 @@ import mergeObjects from "./mergeObjects";
 import "reflect-metadata";
 import { CLASIFYDUCK_OPTIONS, ISDUCK_OPTIONS } from "./settings";
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, Validate, validateSync } from 'class-validator';
+import { DuckDto } from "../classes/duckdto";
+
+export function dtoToIsDuck(ADuckDto) {
+    if (ADuckDto.prototype instanceof DuckDto) {
+        return function isDuck(val, options?) {
+            if ( //if object
+                typeof val === 'object' &&
+                !Array.isArray(val) &&
+                val !== null
+            ) { //initialize and test
+                let obj = new ADuckDto();
+                obj = Object.assign(obj, val);
+                return classifyDuck(obj, options);
+            } else { //fail
+                return classifyDuck(undefined, {
+                    ...options,
+                    allowUndefined: false,
+                });
+            }
+        }
+    } else {
+        throw new Error("Must be an instance of DuckDto to be turned into isDuck");
+    }
+}
 
 export function classifyDuck(dto, options?) {
     options = mergeObjects(CLASIFYDUCK_OPTIONS, options || {});
