@@ -1,11 +1,6 @@
 import { makeDuck, duckorate, isString, classifyDuck, ISDUCK_OPTIONS } from "../../../src/index";
 
 test("testing decorators", ()=>{
-    const isPost = makeDuck({
-        id: Number,
-        content: String,
-    })
-    
     class Post {
         @duckorate(makeDuck((val)=>val>0))
         id;

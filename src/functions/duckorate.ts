@@ -3,6 +3,7 @@ import "reflect-metadata";
 import { CLASIFYDUCK_OPTIONS, ISDUCK_OPTIONS } from "./settings";
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, Validate, validateSync } from 'class-validator';
 import { DuckDto } from "../classes/duckdto";
+import isObject from "./is/isObject";
 
 export function dtoToIsDuck(ADuckDto) {
     if (ADuckDto.prototype instanceof DuckDto) {
@@ -10,13 +11,15 @@ export function dtoToIsDuck(ADuckDto) {
             if ( //if object
                 typeof val === 'object' &&
                 !Array.isArray(val) &&
-                val !== null
+                val !== null &&
+                isObject(val)
             ) { //initialize and test
                 let obj = new ADuckDto();
                 obj = Object.assign(obj, val);
+
                 return classifyDuck(obj, options);
             } else { //fail
-                return classifyDuck(undefined, {
+                return classifyDuck({}, {
                     ...options,
                     allowUndefined: false,
                 });
