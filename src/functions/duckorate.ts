@@ -8,20 +8,18 @@ import isObject from "./is/isObject";
 export function dtoToIsDuck(ADuckDto) {
     if (ADuckDto.prototype instanceof DuckDto) {
         return function isDuck(val, options?) {
+            let obj = new ADuckDto();
             if ( //if object
                 typeof val === 'object' &&
                 !Array.isArray(val) &&
                 val !== null &&
                 isObject(val)
             ) { //initialize and test
-                let obj = new ADuckDto();
                 obj = Object.assign(obj, val);
-
                 return classifyDuck(obj, options);
             } else { //fail
-                return classifyDuck(undefined, {
+                return classifyDuck(obj, {
                     ...options,
-                    allowUndefined: false,
                 });
             }
         }
@@ -38,7 +36,7 @@ export function classifyDuck(dto, options?) {
     }
 
     try {
-        var [err]:any = validateSync(dto || {});
+        var [err]:any = validateSync(dto);
         if (err && err.constraints) {
             err = err.constraints.customText
         }

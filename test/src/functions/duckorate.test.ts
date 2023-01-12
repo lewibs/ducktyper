@@ -156,7 +156,7 @@ test("nested dtos", ()=>{
     try {
         classifyDuck(post, {throw:true});
     } catch (e) {
-        expect(e.message).toBe(ISDUCK_OPTIONS.message);
+        expect(e.message).toBe("Not a string");
     }
 
     post.content = {
@@ -173,3 +173,12 @@ test("nested dtos", ()=>{
 
     expect(classifyDuck(post, {throw:true})).toBe(true);
 });
+
+test("Test classifyDuck undefiend", ()=>{
+    class Dto extends DuckDto {
+        @duckorate(isString)
+        content;
+    }
+
+    expect(classifyDuck(undefined, {throw:true})).toBe(false);
+})
