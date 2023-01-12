@@ -16,6 +16,7 @@ test("testing decorators", ()=>{
     };
     expect(isPost(post)).toBe(true);
     expect(isPost({})).toBe(false);
+    expect(isPost(123456789)).toBe(false);
     expect(isPost("asdfasdf")).toBe(false);
 
     try {

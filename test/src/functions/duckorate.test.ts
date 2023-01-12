@@ -7,7 +7,7 @@ test("testing decorators", ()=>{
     
         @duckorate(isString)
         content;
-    }  
+    }
 
     let post = new Post();
     post.id = 0;
@@ -26,14 +26,6 @@ test("testing decorators", ()=>{
 
     post.id = 1;
     expect(classifyDuck(post)).toBe(true);
-
-    try {
-        classifyDuck(post, {throw:true, message: "custom"});
-        expect(false).toBe(true);
-    } catch (error) {
-        expect(error.message).toBe("custom");
-    }
-
 
     post.id = 123;
     post.content = 123;
@@ -82,4 +74,63 @@ test("testing decorators", ()=>{
             content:123
         },
     })).toBe(false);
+});
+
+test("testing decorators isolate", ()=>{
+    class Post extends DuckDto {
+        @duckorate(makeDuck((val)=>val>0))
+        id;
+    
+        @duckorate(isString)
+        content;
+    }
+
+    let post = new Post();
+    post.content = "adf";
+
+    try {
+        classifyDuck(post, {throw:true, message: "custom"});
+        expect(false).toBe(true);
+    } catch (error) {
+        expect(error.message).toBe("custom");
+    }
+});
+
+test("testing decorators message", ()=>{
+    class Post extends DuckDto {
+        @duckorate(makeDuck((val)=>val>0))
+        id;
+    
+        @duckorate(isString)
+        content;
+    }
+
+    let post = new Post();
+    post.id = 123;
+    post.content = 123;
+    try {
+        classifyDuck(post, {throw:true});
+        expect(false).toBe(true);
+    } catch (error) {
+        expect(error.message).toBe("Not a string");
+    }
+});
+
+test("testing forceDuck", ()=>{
+    class Boring {
+        apple="apple";
+    }
+
+    const b = new Boring();
+    try {
+        expect(classifyDuck(b)).toBe(true);
+    } catch(e) {
+        expect(false).toBe(true);
+    }
+
+    try {
+        classifyDuck(b, {forceDuck:true});
+    } catch(e) {
+        expect(e.message).toBe("Must be an instance of DuckDto to be clasified");
+    }
 });

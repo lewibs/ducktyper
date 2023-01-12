@@ -1,6 +1,6 @@
 import mergeObjects from "./mergeObjects";
 import "reflect-metadata";
-import { CLASIFYDUCK_OPTIONS, ISDUCK_OPTIONS } from "./settings";
+import { CLASIFYDUCK_OPTIONS } from "./settings";
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, Validate, validateSync } from 'class-validator';
 import { DuckDto } from "../classes/duckdto";
 import isObject from "./is/isObject";
@@ -19,7 +19,7 @@ export function dtoToIsDuck(ADuckDto) {
 
                 return classifyDuck(obj, options);
             } else { //fail
-                return classifyDuck({}, {
+                return classifyDuck(undefined, {
                     ...options,
                     allowUndefined: false,
                 });
@@ -32,15 +32,25 @@ export function dtoToIsDuck(ADuckDto) {
 
 export function classifyDuck(dto, options?) {
     options = mergeObjects(CLASIFYDUCK_OPTIONS, options || {});
-    const [err] = validateSync(dto, {stopAtFirstError:true});
-   
-    if (options.throw) {
+
+    if (options.forceDuck && !(dto instanceof DuckDto)) {
+        throw new Error("Must be an instance of DuckDto to be clasified");
+    }
+
+    try {
+        var [err]:any = validateSync(dto);
+        if (err && err.constraints) {
+            err = err.constraints.customText
+        }
+    } catch (e) {
+        var err = e.message;
+    }
+
+    if (err && options.throw) {
         if (options.message) {
             throw new Error(options.message);
-        } else if (err.constraints) {
-            throw new Error(err.constraints.customText);
         } else {
-            throw new Error(ISDUCK_OPTIONS.message);
+            throw new Error(err);
         }
     }
 
@@ -48,12 +58,11 @@ export function classifyDuck(dto, options?) {
 }
 
 export function duckorate(duck, options?): Function {
-    options = mergeObjects(ISDUCK_OPTIONS, options || {});
     return makePropertyDuckorator(duck, options);
 }
 
 function makePropertyDuckorator(duck, options?) {
-    options = mergeObjects(ISDUCK_OPTIONS, options || {});
+    options = options || {}
 
     @ValidatorConstraint({ name: 'customText', async: false })
     class DuckValidation implements ValidatorConstraintInterface {

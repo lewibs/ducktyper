@@ -65,6 +65,7 @@ These are a list of option that you can attach to a isDuck or call at runtime.
 | allowEmptyString: Boolean | By default this is not included. However when you want to make sure a string is not empty set this to false if it is okay set it to true. This takes precidence over allowEmpty |
 | allowEmptyArray: Boolean | By default this is not included. However when you want to make sure an array is not empty set this to false if it is okay set it to true. This takes precidence over allowEmpty |
 | childMessage: Boolean | By default this is set as true. What this does is signify that we want the message given by the child if any are given. If it is set to false it will return the parent message every time |
+| forceDuckDto: Boolean | This is used to force that all functions which take a dto as a parameter to force the use of a duckDto. |
 <br/>
 
 
