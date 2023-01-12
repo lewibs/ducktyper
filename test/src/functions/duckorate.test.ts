@@ -180,5 +180,6 @@ test("Test classifyDuck undefiend", ()=>{
         content;
     }
 
-    expect(classifyDuck(undefined, {throw:true})).toBe(false);
+    expect(classifyDuck(undefined, {throw:true})).toBe(true);
+    expect(classifyDuck({}, {throw:true})).toBe(true);
 })

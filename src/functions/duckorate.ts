@@ -36,7 +36,8 @@ export function classifyDuck(dto, options?) {
     }
 
     try {
-        var [err]:any = validateSync(dto);
+        //change dto to {} when it is undefined since {} and undefined are basically the same in this case
+        var [err]:any = validateSync(dto || {});
         if (err && err.constraints) {
             err = err.constraints.customText
         }
