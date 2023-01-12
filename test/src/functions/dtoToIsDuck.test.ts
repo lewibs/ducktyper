@@ -1,33 +1,33 @@
 import { makeDuck, duckorate, isString, dtoToIsDuck, DuckDto, ISDUCK_OPTIONS } from "../../../src/index";
 
-// test("testing decorators", ()=>{
-//     class Post extends DuckDto {
-//         @duckorate(makeDuck((val)=>val>0))
-//         id;
+test("testing decorators", ()=>{
+    class Post extends DuckDto {
+        @duckorate(makeDuck((val)=>val>0))
+        id;
     
-//         @duckorate(isString)
-//         content;
-//     }  
+        @duckorate(isString)
+        content;
+    }  
 
-//     const isPost = dtoToIsDuck(Post);
-//     let post = {
-//         id: 2,
-//         content: "asdfasdf",
-//     };
-//     expect(isPost(post)).toBe(true);
-//     expect(isPost({})).toBe(false);
-//     expect(isPost(123456789)).toBe(false);
-//     expect(isPost("asdfasdf")).toBe(false);
+    const isPost = dtoToIsDuck(Post);
+    let post = {
+        id: 2,
+        content: "asdfasdf",
+    };
+    expect(isPost(post)).toBe(true);
+    expect(isPost({})).toBe(false);
+    expect(isPost(123456789)).toBe(false);
+    expect(isPost("asdfasdf")).toBe(false);
 
-//     try {
-//         isPost({}, {
-//             throw: true,
-//         })
-//         expect(false).toBe(true);
-//     } catch (e) {
-//         expect(ISDUCK_OPTIONS.message).toBe(e.message);
-//     }
-// });
+    try {
+        isPost({}, {
+            throw: true,
+        })
+        expect(false).toBe(true);
+    } catch (e) {
+        expect(ISDUCK_OPTIONS.message).toBe(e.message);
+    }
+});
 
 test("testing dto as undefined", ()=>{
     class Post extends DuckDto {
@@ -40,7 +40,7 @@ test("testing dto as undefined", ()=>{
 
     const isPost = dtoToIsDuck(Post);
     try {
-        isPost({}, {throw:true})
+        isPost({id:"adsf", content:"asdf"}, {throw:true})
         expect(true).toBe(false);
     } catch (e) {
         expect(e.message).toBe("bad id");
@@ -50,6 +50,6 @@ test("testing dto as undefined", ()=>{
         isPost(undefined, {throw:true});
         expect(true).toBe(false);
     } catch (e) {
-        expect(e.message).toBe("Not a string");
+        expect(e.message).toBe("bad id");
     }
 });

@@ -1,6 +1,6 @@
 import mergeObjects from "./mergeObjects";
 import "reflect-metadata";
-import { CLASIFYDUCK_OPTIONS } from "./settings";
+import { CLASIFYDUCK_OPTIONS, ISDUCK_OPTIONS } from "./settings";
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, Validate, validateSync } from 'class-validator';
 import { DuckDto } from "../classes/duckdto";
 import isObject from "./is/isObject";
@@ -78,7 +78,7 @@ function makePropertyDuckorator(duck, options?) {
                 throw: true,
             });
         } catch (error) {
-            return error.message;
+            return options.message || error.message;
         }
       }
     }
