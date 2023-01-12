@@ -11,6 +11,7 @@ export const ISDUCK_OPTIONS = {
 
 export const CLASIFYDUCK_OPTIONS = {
     ...ISDUCK_OPTIONS,
+    message: undefined,
 }
 
 function afix(objA, objB) {

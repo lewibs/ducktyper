@@ -32,15 +32,24 @@ export function dtoToIsDuck(ADuckDto) {
 
 export function classifyDuck(dto, options?) {
     options = mergeObjects(CLASIFYDUCK_OPTIONS, options || {});
-    const [err] = validateSync(dto, {stopAtFirstError:true});
-   
+
+    let err;
+    try {
+        [err] = validateSync(dto, {stopAtFirstError:true});
+        if (err.constraints) {
+            err = err.constraints.customText
+        }
+    } catch (e) {
+        err = e.message;
+    }
+
+    console.warn(err.message);
+
     if (options.throw) {
         if (options.message) {
             throw new Error(options.message);
-        } else if (err.constraints) {
-            throw new Error(err.constraints.customText);
         } else {
-            throw new Error(ISDUCK_OPTIONS.message);
+            throw new Error(err);
         }
     }
 
@@ -48,19 +57,19 @@ export function classifyDuck(dto, options?) {
 }
 
 export function duckorate(duck, options?): Function {
-    options = mergeObjects(ISDUCK_OPTIONS, options || {});
     return makePropertyDuckorator(duck, options);
 }
 
 function makePropertyDuckorator(duck, options?) {
-    options = mergeObjects(ISDUCK_OPTIONS, options || {});
+    options = options || {}
 
     @ValidatorConstraint({ name: 'customText', async: false })
     class DuckValidation implements ValidatorConstraintInterface {
       validate(val:any, args: ValidationArguments) {
+        throw new Error("kjsajlsfhjdjfklsjlkfdsjklasdfjlkfdsjlk");
         return duck(val, {
             ...options,
-            throw: false,
+            throw: true,
         });
       }
     
