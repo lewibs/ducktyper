@@ -38,7 +38,7 @@ export function classifyDuck(dto, options?) {
     }
 
     try {
-        var [err]:any = validateSync(dto);
+        var [err]:any = validateSync(dto || {});
         if (err && err.constraints) {
             err = err.constraints.customText
         }

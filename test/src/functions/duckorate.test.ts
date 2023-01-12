@@ -1,4 +1,4 @@
-import { makeDuck, duckorate, isString, classifyDuck, ISDUCK_OPTIONS, DuckDto } from "../../../src/index";
+import { makeDuck, duckorate, isString, classifyDuck, ISDUCK_OPTIONS, DuckDto, dtoToIsDuck } from "../../../src/index";
 
 test("testing decorators", ()=>{
     class Post extends DuckDto {
@@ -133,4 +133,43 @@ test("testing forceDuck", ()=>{
     } catch(e) {
         expect(e.message).toBe("Must be an instance of DuckDto to be clasified");
     }
+});
+
+test("nested dtos", ()=>{
+    class Dto extends DuckDto {
+        @duckorate(isString)
+        content;
+    }
+
+    class Post extends DuckDto {
+        @duckorate(makeDuck((val)=>val>0))
+        id;
+    
+        @duckorate(dtoToIsDuck(Dto))
+        content;
+    }
+
+    const post = new Post();
+    post.id = 345678;
+    post.content = undefined;
+
+    try {
+        classifyDuck(post, {throw:true});
+    } catch (e) {
+        expect(e.message).toBe(ISDUCK_OPTIONS.message);
+    }
+
+    post.content = {
+        content: 123,
+    };
+
+    try {
+        classifyDuck(post, {throw:true});
+    } catch (e) {
+        expect(e.message).toBe("Not a string");
+    }
+
+    post.content.content = "123456";
+
+    expect(classifyDuck(post, {throw:true})).toBe(true);
 });
