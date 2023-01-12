@@ -1,6 +1,6 @@
 import mergeObjects from "./mergeObjects";
 import "reflect-metadata";
-import { CLASIFYDUCK_OPTIONS, ISDUCK_OPTIONS } from "./settings";
+import { CLASIFYDUCK_OPTIONS } from "./settings";
 import { ValidatorConstraint, ValidatorConstraintInterface, ValidationArguments, Validate, validateSync } from 'class-validator';
 import { DuckDto } from "../classes/duckdto";
 import isObject from "./is/isObject";
@@ -19,7 +19,7 @@ export function dtoToIsDuck(ADuckDto) {
 
                 return classifyDuck(obj, options);
             } else { //fail
-                return classifyDuck({}, {
+                return classifyDuck(undefined, {
                     ...options,
                     allowUndefined: false,
                 });
@@ -33,19 +33,20 @@ export function dtoToIsDuck(ADuckDto) {
 export function classifyDuck(dto, options?) {
     options = mergeObjects(CLASIFYDUCK_OPTIONS, options || {});
 
-    let err;
+    if (options.forceDuck && !(dto instanceof DuckDto)) {
+        throw new Error("Must be an instance of DuckDto to be clasified");
+    }
+
     try {
-        [err] = validateSync(dto, {stopAtFirstError:true});
-        if (err.constraints) {
+        var [err]:any = validateSync(dto);
+        if (err && err.constraints) {
             err = err.constraints.customText
         }
     } catch (e) {
-        err = e.message;
+        var err = e.message;
     }
 
-    console.warn(err.message);
-
-    if (options.throw) {
+    if (err && options.throw) {
         if (options.message) {
             throw new Error(options.message);
         } else {
@@ -66,10 +67,9 @@ function makePropertyDuckorator(duck, options?) {
     @ValidatorConstraint({ name: 'customText', async: false })
     class DuckValidation implements ValidatorConstraintInterface {
       validate(val:any, args: ValidationArguments) {
-        throw new Error("kjsajlsfhjdjfklsjlkfdsjklasdfjlkfdsjlk");
         return duck(val, {
             ...options,
-            throw: true,
+            throw: false,
         });
       }
     

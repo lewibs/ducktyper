@@ -7,6 +7,7 @@ export const ISDUCK_OPTIONS = {
     allowEmptyArray: undefined,
     childMessage: true,
     message: `Not A Duck: Input failed to follow specifications`,
+    forceDuckDto: false,
 };
 
 export const CLASIFYDUCK_OPTIONS = {
