@@ -6,9 +6,6 @@ export * from "./functions/duckorate";
 export * from "./functions/settings";
 export * from "./classes/duckdto";
 
-export * from "./functions/is/isDuck";
-export * from "./functions/is/isFunction";
-
 export const isString = duckfaults(makeDuck(String), {
     message: "Not a string",
 });
