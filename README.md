@@ -126,7 +126,7 @@ import {makeDuck, duckorate, classifyDuck, DuckDto} from "ducktyper";
 const isQuack = makeDuck((val)=>"quack"===val);
 const isEats = makeDuck((val)=>val==="bread" || val==="seeds");
 
-class Duck extends DuckDto() {
+class Duck extends DuckDto {
    @duckorate(isQuack)
    sound;
 
