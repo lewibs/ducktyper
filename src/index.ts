@@ -25,3 +25,7 @@ export const isBoolean = duckfaults(makeDuck(Boolean), {
 export const isArray = duckfaults(makeDuck(Array), {
     message: "Not an array",
 });
+
+export const isFunction = duckfaults(makeDuck(Function), {
+    message: "Not a function",
+});

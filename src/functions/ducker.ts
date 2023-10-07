@@ -4,8 +4,6 @@ import mergeObjects from "./mergeObjects";
 import isObject from "./is/isObject";
 import { ISDUCK_OPTIONS } from "./settings";
 
-export const DUCK = "isDuck";
-
 //should the user pass in input name? or can it be collected from else where?
 export function makeDuck(...args) {
     if (args.length === 0 || args === undefined) {
@@ -61,6 +59,7 @@ export function makeDuck(...args) {
             }
         }
     }
+    isDuck.isDuck = true;
 
     return isDuck;
 }
@@ -72,7 +71,10 @@ export function duckfaults(duck, options?) {
 
     let updated = mergeObjects(ISDUCK_OPTIONS, options);
     //never rename this
-    return function isDuck(obj, options?) {
+    function isDuck(obj, options?) {
         return duck(obj, mergeObjects(updated, options));
     }
+    isDuck.isDuck = true;
+
+    return isDuck;
 }
