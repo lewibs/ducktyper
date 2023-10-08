@@ -1,6 +1,6 @@
 {
   "name": "ducktyper",
-  "version": "5.1.12",
+  "version": "5.1.13",
   "description": "A tool for validating input based on the fundamental js idea of duck typing. The object of this is to allow for clearer input validation and specification from the perspective of the developer. It will reduce the amount of time it takes to do input validation and also speed up the reading process when faced with new code. Ultimately, however, The goal is not to make a statically typed language like typescript but instead make a duck typed language. Meaning, the types of the objects are unimportant so long as they follow has-a relationships.",
   "main": "lib/index.js",
   "scripts": {
