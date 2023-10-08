@@ -1,6 +1,25 @@
-const { makeDuck, duckfaults } = require("../../lib/index");
+const { makeDuck, duckfaults, DuckDto } = require("../../lib/index");
 
 test("makeDuck", ()=>{
+    {
+        let ran = false;
+        let isFunctionTest = makeDuck(()=>{
+            ran = true;
+            return true;
+        });
+        
+        expect(isFunctionTest("test")).toBe(true);
+        expect(ran).toBe(true);
+
+        ran = false;
+
+        isFunctionTest = duckfaults(isFunctionTest, {
+            message:"isFunctionTest failed",
+        });
+
+        expect(isFunctionTest("test")).toBe(true);
+        expect(ran).toBe(true);
+    }
     
     {
         const isType = makeDuck(String);
@@ -12,7 +31,7 @@ test("makeDuck", ()=>{
         let isAlwaysTrue = makeDuck(()=>true);
         expect(isAlwaysTrue("test")).toBe(true);
         expect(isAlwaysTrue()).toBe(false);
-        
+
         isAlwaysTrue = duckfaults(isAlwaysTrue, {
             allowUndefined: true,
         })
@@ -72,5 +91,33 @@ test("makeDuck", ()=>{
         }
     
         expect(isPerson(person, {throw: false})).toBe(false);
+    }
+
+    {//failed in user example
+        let ran = false;
+        let isDuckDto = makeDuck((val)=>{
+            ran = true;
+            return val instanceof DuckDto;
+        });
+
+        class Duck extends DuckDto {}
+        
+        isDuckDto("dont matter");
+        expect(ran).toBe(true);
+
+        ran = false;
+        isDuckDto(new Duck());
+        expect(ran).toBe(true);
+
+        ran = false;
+        isDuckDto(Duck);
+        expect(ran).toBe(true);
+
+        expect(isDuckDto(new Duck())).toBe(true);
+        expect(isDuckDto(Duck)).toBe(true);
+        expect(isDuckDto({})).toBe(false);
+        expect(isDuckDto(()=>{})).toBe(false);
+        expect(isDuckDto(123)).toBe(false);
+        expect(isDuckDto("string")).toBe(false);
     }
 });

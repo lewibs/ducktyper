@@ -14,10 +14,6 @@ export function makeDuck(...args) {
 
     const validators = isDucks.concat(others.map(makeDuckValidator));
 
-    // console.warn("Running again:");
-    // console.log(validators);
-    // console.log(validators.map((v)=>v("test")));
-
     //never rename this
     function isDuck(obj, options?: any) {
         options = mergeObjects(ISDUCK_OPTIONS, options || {});
