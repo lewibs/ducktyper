@@ -31,39 +31,50 @@ import { dtoToIsDuck } from "./duckorate";
 //designed to be used recursively
 export default function makeDuckValidator(val) {
     if (val.prototype instanceof DuckDto) {
+        console.log("dto to is duck");
         //the user passed in a DuckDto and we want to check it using an isDuck
         return dtoToIsDuck(val);
     } else if (isArray(val)) { 
         //[]
+        console.log("array validator");
         return makeArrayValidator(val);
     } else if (isObject(val)) { 
         //{}
+        console.log("object validator");
         return makeObjectValidator(val);
     } else if (isPrimitive(val)) { 
         //user wants to be strict
+        console.log("primative validator");
         return makePrimativeValidator(val);
-    } else if (isDuck(val)) { 
+    } else if (isDuck(val)) {
         //user is merging types
+        console.log("is duck validator");
         return val;
     } else if (!isPrimativeConstructor(val) && isClass(val)) {
+        console.log("class validator");
         return makeClassValidator(val);
     } else if (isFunction(val)) {
         //user passed in a custom function to validate with
+        console.log("function validator");
         return val;
     } else {
         //made it to the bottom. its not more complex then this... i hope
         //these are the generic constructors
         //everything here is a function
         //which makes me question how this will react to functions passed in like ()=>{} since its not
+        console.log("type validator");
         return makeTypeValidator(val);
     }
 }
 
-export function makeIsDuckValidator(isDuck?) {
+function makeIsDuckValidator(isDuck?) {
     //for naming reasons
-    return function duckValidator(check, options?) {
+    function duckValidator(check, options?) {
         return isDuck(check, options);
     }
+
+    duckValidator.isDuck = true;
+    return duckValidator;
 }
 
 //in the case a primative is passed in. It is assumed that it has said param

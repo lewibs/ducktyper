@@ -1,5 +1,6 @@
 import isDuck from "../../../../src/functions/is/isDuck";
 import {makeDuck, duckfaults} from "../../../../src/functions/ducker";
+import isFunction from "../../../../src/functions/is/isFunction";
 
 
 test('tests is duck with ducker function', () => {
@@ -20,5 +21,15 @@ test('test isDuck with updated isDuck', ()=>{
   duck = duckfaults(duck, {
     message:"still a duck",
   });
+  expect(isDuck(duck)).toBe(true);
+  duck = duckfaults(duck, {
+    message:"another layer",
+  })
+  expect(isDuck(duck)).toBe(true);
+
+
+  duck = duckfaults(makeDuck(isFunction), {
+    message: "no",
+  })
   expect(isDuck(duck)).toBe(true);
 });
