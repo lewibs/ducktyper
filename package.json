@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "npx tsc",
-    "test": "jest",
+    "test": "npm run build && jest",
     "debug": "node --inspect-brk node_modules/.bin/jest --runInBand"
   },
   "repository": {

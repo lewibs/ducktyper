@@ -10,8 +10,13 @@ export function makeDuck(...args) {
         throw new Error("no arguments passed into ducker unable to make type");
     }
 
-    const [isDucks, ducks] = sortDucks(args);
-    const validators = isDucks.concat(ducks.map(makeDuckValidator));
+    const [isDucks, others] = sortDucks(args);
+
+    const validators = isDucks.concat(others.map(makeDuckValidator));
+
+    // console.warn("Running again:");
+    // console.log(validators);
+    // console.log(validators.map((v)=>v("test")));
 
     //never rename this
     function isDuck(obj, options?: any) {
