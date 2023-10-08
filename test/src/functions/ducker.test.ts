@@ -295,3 +295,17 @@ test("test undefined options", ()=>{
         expect(error.message).toBe("Not a string");
     }
 });
+
+test("test enums", ()=>{
+    enum Direction {
+        Up,
+        Down,
+        Left,
+        Right,
+    }
+
+    const isDirection = makeDuck(Direction);
+
+    expect(isDirection(Direction.Down)).toBe(true);
+    expect(isDirection(Direction)).toBe(false);
+});

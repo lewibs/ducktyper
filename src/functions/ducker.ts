@@ -17,13 +17,9 @@ export function makeDuck(...args) {
     function isDuck(obj, options?: any) {
         options = mergeObjects(ISDUCK_OPTIONS, options || {});
 
-        console.log(obj);
-        console.log(options);
-
         //dumb edge case that should be refactored so that it does not exist up here.
         if (options.allowUndefined === false && (obj === undefined || obj === null)) {
             if (options.throw) {
-                console.log("throwing since undefied not allowed");
                 throw new Error(options.message)
             } else {
                 return false;
@@ -35,7 +31,6 @@ export function makeDuck(...args) {
         try {
             //for some reason this throws a bug with the default values.
             const valid = validators.map(validator=>{
-                console.log("validating.");
                 return validator(obj, {
                     throw: options.throw, //for getting specifc error message if they are set
                     allowEmpty: options.allowEmpty,
@@ -45,7 +40,6 @@ export function makeDuck(...args) {
             }).every((results)=>results===true);
 
             if (valid === false) {
-                console.error("throw");
                 throw new Error(options.message);
             }
 
@@ -55,15 +49,9 @@ export function makeDuck(...args) {
             if (options.throw) {
                 //return child message false then we return parent
                 if (options.childMessage === false) {
-                    console.error("throw");
                     throw new Error(options.message);
                 }
 
-                //if the parent throw would have more description
-                // if (e.message === ISDUCK_OPTIONS.message) {
-                //     throw new Error(options.message);
-                // }
-                console.error("throw");
                 throw e;
             } else {
                 return false;

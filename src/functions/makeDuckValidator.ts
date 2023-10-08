@@ -3,11 +3,11 @@ import isArray from "./is/isArray";
 import isDuck from "./is/isDuck";
 import isObject from "./is/isObject";   
 import isEmptyArray from "./is/isEmptyArray";
-import isClass from "./is/isClass";
 import isFunction from "./is/isFunction";
-import isPrimativeConstructor from "./is/isPrimativeConstructor";
 import { DuckDto } from "../classes/duckdto";
 import { dtoToIsDuck } from "./duckorate";
+import { isPrimativeConstructor } from "./is/isPrimativeConstructor";
+import { isAny } from "./is/isAny";
 
 //accepts https://developer.mozilla.org/en-US/docs/Glossary/Primitive
 //string
@@ -31,39 +31,30 @@ import { dtoToIsDuck } from "./duckorate";
 //designed to be used recursively
 export default function makeDuckValidator(val) {
     if (val.prototype instanceof DuckDto) {
-        console.log("dto to is duck");
         //the user passed in a DuckDto and we want to check it using an isDuck
         return dtoToIsDuck(val);
+    } else if (isAny(val)) {
+        return val;
     } else if (isArray(val)) { 
         //[]
-        console.log("array validator");
         return makeArrayValidator(val);
     } else if (isObject(val)) { 
         //{}
-        console.log("object validator");
         return makeObjectValidator(val);
     } else if (isPrimitive(val)) { 
         //user wants to be strict
-        console.log("primative validator");
         return makePrimativeValidator(val);
     } else if (isDuck(val)) {
         //user is merging types
-        console.log("is duck validator");
         return val;
-    } else if (!isPrimativeConstructor(val) && isClass(val)) {
-        console.log("class validator");
-        return makeClassValidator(val);
+    } else if (isPrimativeConstructor(val)) {
+        //validating based on type... not sure if this works for enums need to check
+        return makeTypeValidator(val);
     } else if (isFunction(val)) {
         //user passed in a custom function to validate with
-        console.log("function validator");
-        return val;
+        return makeFunctionValidator(val);
     } else {
-        //made it to the bottom. its not more complex then this... i hope
-        //these are the generic constructors
-        //everything here is a function
-        //which makes me question how this will react to functions passed in like ()=>{} since its not
-        console.log("type validator");
-        return makeTypeValidator(val);
+       throw new Error("Not a supported value");
     }
 }
 
@@ -157,9 +148,13 @@ export function makeObjectValidator(obj) {
     }
 }
 
-export function makeClassValidator(val) {
-    return function classValidator(check) {
-        return check instanceof val;
+export function makeFunctionValidator(val) {
+    return function functionValidator(check) {
+        if (check instanceof val) {
+            return true;
+        } else {
+            return val(check);
+        }
     }
 }
 
