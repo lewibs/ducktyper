@@ -67,16 +67,6 @@ export default function makeDuckValidator(val) {
     }
 }
 
-function makeIsDuckValidator(isDuck?) {
-    //for naming reasons
-    function duckValidator(check, options?) {
-        return isDuck(check, options);
-    }
-
-    duckValidator.isDuck = true;
-    return duckValidator;
-}
-
 //in the case a primative is passed in. It is assumed that it has said param
 export function makePrimativeValidator(prim) {
     return function primativeValidator(check, options?) {
