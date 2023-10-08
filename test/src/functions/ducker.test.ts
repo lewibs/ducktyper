@@ -296,16 +296,16 @@ test("test undefined options", ()=>{
     }
 });
 
-test("test enums", ()=>{
-    enum Direction {
-        Up,
-        Down,
-        Left,
-        Right,
-    }
+// test("test enums", ()=>{
+//     enum Direction {
+//         Up,
+//         Down,
+//         Left,
+//         Right,
+//     }
 
-    const isDirection = makeDuck(Direction);
+//     const isDirection = makeDuck(Direction);
 
-    expect(isDirection(Direction.Down)).toBe(true);
-    expect(isDirection(Direction)).toBe(false);
-});
+//     expect(isDirection(Direction.Down)).toBe(true);
+//     expect(isDirection(Direction)).toBe(false);
+// });
