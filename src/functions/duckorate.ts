@@ -7,7 +7,7 @@ import isObject from "./is/isObject";
 
 export function dtoToIsDuck(ADuckDto) {
     if (ADuckDto.prototype instanceof DuckDto) {
-        return function isDuck(val, options?) {
+        function isDuck(val, options?) {
             let obj = new ADuckDto();
             if ( //if object
                 typeof val === 'object' &&
@@ -23,6 +23,10 @@ export function dtoToIsDuck(ADuckDto) {
                 });
             }
         }
+
+        isDuck.isDuck = true;
+
+        return isDuck;
     } else {
         throw new Error("Must be an instance of DuckDto to be turned into isDuck");
     }
