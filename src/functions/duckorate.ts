@@ -104,19 +104,5 @@ function makePropertyDuckorator(duck, options?) {
 }
 
 function initializeToNull(target: any, key: string) {
-    const privateFieldName = `_${key}`;
-
-    Object.defineProperty(target, key, {
-        get() {
-            return this[privateFieldName];
-        },
-        set(value) {
-            this[privateFieldName] = value;
-        },
-        enumerable: true,
-        configurable: true,
-    });
-
-    // Set the initial value to null during class instantiation
     target[key] = null;
 }
