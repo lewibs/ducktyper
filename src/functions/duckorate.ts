@@ -60,8 +60,13 @@ export function classifyDuck(dto, options?) {
     return err ? false : true;
 }
 
-export function duckorate(duck, options?): Function {
-    return makePropertyDuckorator(duck, options);
+export function duckorate(duck, options?) {
+    const duckDecorator = makePropertyDuckorator(duck, options);
+
+    return function combinedDecorator(target: any, key: string): void {
+        duckDecorator(target, key);
+        initializeToNull(target, key);
+    };
 }
 
 function makePropertyDuckorator(duck, options?) {
@@ -96,4 +101,22 @@ function makePropertyDuckorator(duck, options?) {
             throw new Error("Duckorator must be used in a class that extends DuckDto");
         }
     }
+}
+
+function initializeToNull(target: any, key: string) {
+    const privateFieldName = `_${key}`;
+
+    Object.defineProperty(target, key, {
+        get() {
+            return this[privateFieldName];
+        },
+        set(value) {
+            this[privateFieldName] = value;
+        },
+        enumerable: true,
+        configurable: true,
+    });
+
+    // Set the initial value to null during class instantiation
+    target[key] = null;
 }

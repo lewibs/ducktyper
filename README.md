@@ -26,6 +26,7 @@ This is a list of the main functions that ducktyper provides. The main two are m
 | classifyDuck(dto, options): Bool/Error | This is used in the same way that an isDuck is used. However it takes in a dto with duckorators as input. |
 | initClassifyDuckOptions(obj) | this is used to update the default options that are used when classifyDuck is called on a dto |
 | initIsDuckOptions(obj) | this is used to update the default options when makeDuck is called to initalize a isDuck |
+| trimDuck(duck, DuckDto) | this is used to remove any extra fields from the duck dto |
 <br/>
 
 These are frequently used types that will allow you to save overhead time rather then having to make a new validator every time you need a basic type. If there are any common types you would like added raise an issue in the github.

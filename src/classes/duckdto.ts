@@ -1,1 +1,3 @@
-export class DuckDto {}
+export class DuckDto {
+    constructor(){}
+}
